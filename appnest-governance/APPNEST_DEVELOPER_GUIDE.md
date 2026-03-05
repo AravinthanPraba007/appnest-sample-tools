@@ -5,6 +5,7 @@ A **frontend** and **backend** app built on the **Appnest custom framework**. Yo
 - **Backend entry:** **`app-backend/server.js`** — only the functions exported from this file can be invoked (by API or events). Register them in `manifest.json` under `backend_api_functions` and `event_listener_functions`. Use Appnest SDK (`$db`, `$http`, etc.) for DB and API calls.
 - **Frontend entry:** **`app-frontend/src/App.jsx`** — this is always the root component loaded by the framework. Build your UI there (or in components it imports) and call the backend with `window.appnestClient.backend.invoke({ functionName, payload })`.
 - **Frontend UI:** Use **`@sparrowengg/twigs-react`** for React UI components and **`@sparrowengg/twigs-react-icons`** for SVG icons. Twigs is SurveySparrow’s themeable, customisable, and fully accessible React component library. Add these packages to `app-frontend/package.json` when building UI.
+- **UI look and feel:** The app UI should look and feel like a **SaaS product app** — clean, consistent, professional, and focused on usability (clear navigation, readable typography, coherent spacing, and predictable interactions).
 
 ---
 

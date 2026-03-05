@@ -1,91 +1,163 @@
-# Appnest SDK Reference
+# Appnest SDK Functions — Developer Reference
 
-Global reference for the Appnest custom SDK. Use for backend handlers: DB, HTTP, files, invoking other functions, and scheduled jobs. For usage rules see [04-AppNest-SDK-Usage-Rules.md](04-AppNest-SDK-Usage-Rules.md).
+This document is the **single source of truth** for the Appnest custom SDK functions. Use it for **code generation**, auto-completion, and integration in your app.
 
-## Platform-provided dependency
+**For code generation:** This file is self-contained. All function signatures, parameters, types, and constraints are below; no other MD files are required to generate code that calls these SDK functions.
 
 **Do not add `@aravinthan_p/appnest-sdk-utils` (or `appnest-sdk-utils`) to `app-backend/package.json`.** The SDK is provided by the AppNest platform at runtime. Your backend code should `require('@aravinthan_p/appnest-sdk-utils')` (or the package name configured by the platform) without listing it as a dependency.
+
+---
 
 ## Import
 
 ```javascript
-const AppnestFunctions = require('@aravinthan_p/appnest-sdk-utils');
-// or: require('appnest-sdk-utils');
+const AppnestFunctions = require('appnest-sdk-utils');
+// or from path:
+// const AppnestFunctions = require('<path-to-sdk>/appnestFunctions');
 
 const { $db, $file, $http, $next, $schedule, getTraceId } = AppnestFunctions;
-const { ResultData } = require('@aravinthan_p/appnest-sdk-utils');  // for HTTP-style responses
 ```
+
+---
 
 ## Quick reference
 
-| Module       | Purpose                    | Main APIs / Methods |
-|-------------|----------------------------|----------------------|
-| **$db**     | Key/value storage          | `get`, `create`, `update`, `delete`; typed: `string`, `number`, `list`, `map`, `boolean` (each with get/create/update/delete and type-specific ops) |
-| **$http**   | Outbound HTTP requests     | `request({ url, method, headers, body, query })` |
-| **$file**   | File storage (signed URLs) | `getUploadUrl`, `getDownloadUrl`, `delete`, `list`, `exists` |
-| **$next**   | Invoke another function    | `run({ functionName, payload, delay })` |
-| **$schedule** | Scheduled jobs           | `create`, `get`, `update`, `pause`, `resume`, `delete` |
-| **getTraceId** | Request trace ID        | `getTraceId()` → string (for logging/correlation) |
+| Module      | Purpose                    | Main APIs / Methods |
+|------------|----------------------------|----------------------|
+| **$db**    | Key/value storage          | `get`, `create`, `update`, `delete`; typed: `string`, `number`, `list`, `map`, `boolean` (each with get/create/update/delete and type-specific ops) |
+| **$http**  | Outbound HTTP requests     | `request({ url, method, headers, body, query })` |
+| **$file**  | File storage (signed URLs) | `getUploadUrl`, `getDownloadUrl`, `delete`, `list`, `exists` |
+| **$next**  | Invoke another function    | `run({ functionName, payload, delay })` |
+| **$schedule** | Scheduled jobs          | `create`, `get`, `update`, `pause`, `resume`, `delete` |
+| **getTraceId** | Request trace ID       | `getTraceId()` → string (for logging/correlation) |
 
-## $db
+---
 
-- **Key:** `key` (string, required, max 1000 chars).
-- **Types:** `string`, `number`, `list`, `map`, `boolean`.
-- **Common methods per type:** `get({ key })`, `create({ key, value })`, `update({ key, value })`, `delete({ key })`.
-- **Extra:** `number.increment({ key })`, `number.decrement({ key })`; `list.append`, `list.prepend`, `list.updateItemAtIndex({ key, value, index })`, `list.removeItemAtIndex({ key, index })`.
-- **Returns:** `Promise<{ data, status }>`.
+## Module details (per-function docs)
 
-## $http
+Each module has a dedicated MD file with full signatures, parameters, and examples. Paths are relative to `appnestFunctions/`:
 
-- **Method:** `$http.request({ url, query, method, headers, body })`.
-- **Params:** All required. `url` (string, https?://, max 2048); `method`: GET | POST | PUT | DELETE | PATCH; `headers`, `body`, `query`: objects with string values (max 1000 keys each, values max 1000 chars).
-- **Returns:** `Promise<{ data, status }>`.
+| Module    | Doc file              | Summary |
+|-----------|------------------------|--------|
+| **$db**   | [dbFunction/db.MD](dbFunction/db.MD) | Key/value by type: STRING, NUMBER, LIST, MAP, BOOLEAN. Common param: `key` (string). |
+| **$http** | [httpFunction/http.MD](httpFunction/http.MD) | `$http.request({ url, method, headers, body, query })`. Methods: GET, POST, PUT, DELETE, PATCH. For API keys/URLs from manifest, define `installation_params` and use `<%=iparams.<key>%>` in url/headers/body. |
+| **$file** | [fileFunction/file.MD](fileFunction/file.MD) | `getUploadUrl`, `getDownloadUrl`, `delete`, `list`, `exists`. Params: `path`, `visibility` (optional). |
+| **$next** | [nextFunction/next.MD](nextFunction/next.MD) | `$next.run({ functionName, payload, delay })`. Delay in seconds. |
+| **$schedule** | [scheduleFunction/schedule.MD](scheduleFunction/schedule.MD) | Types: ONE_TIME, CRON, RECURRING. `name`, `type`, `data` required; type-specific: `runAt`, `cronExpression`, or `repeat`. |
 
-## $file
+---
 
-- **Methods:** `getUploadUrl`, `getDownloadUrl`, `delete`, `list`, `exists`.
-- **Params:** `path` (string, required), `visibility` (optional, PUBLIC | PRIVATE, default PUBLIC).
-- **Returns:** `Promise<{ data, status }>`.
+## Code reference — function signatures & param details
 
-## $next
+All functions return `Promise<{ data, status }>` unless noted.
 
-- **Method:** `$next.run({ functionName, payload, delay })`.
-- **Params:** `functionName` (string), `payload` (object), `delay` (number, seconds, default 0).
-- **Returns:** `Promise<{ data, status }>`.
+---
 
-## $schedule
+### $db
 
-- **Methods:** `create`, `get`, `update`, `pause`, `resume`, `delete`.
-- **Common:** `name` (string, max 30), `type` (ONE_TIME | CRON | RECURRING), `data` (object, at least one key).
-- **ONE_TIME:** `runAt` (date string). **CRON:** `cronExpression`. **RECURRING:** `repeat: { frequency, timeUnit }` (timeUnit: MINUTES | HOURS | DAYS | WEEKS | MONTHS | YEARS).
-- **Returns:** `Promise<{ data, status }>`.
+**Common param for all $db methods:** `key` (string, required, non-empty, max 1000 chars).
+
+| Function | Params | Types / constraints |
+|----------|--------|----------------------|
+| `$db.get({ key })` | key | string |
+| `$db.create({ key })` | key | string |
+| `$db.update({ key, value })` | key, value | key: string; value: string |
+| `$db.delete({ key })` | key | string |
+| `$db.string.get({ key })` | key | string |
+| `$db.string.create({ key, value })` | key, value | key: string; value: string |
+| `$db.string.update({ key, value })` | key, value | string, string |
+| `$db.string.delete({ key })` | key | string |
+| `$db.number.get({ key })` | key | string |
+| `$db.number.create({ key, value })` | key, value | key: string; value: number |
+| `$db.number.update({ key, value })` | key, value | string, number |
+| `$db.number.delete({ key })` | key | string |
+| `$db.number.increment({ key })` | key | string |
+| `$db.number.decrement({ key })` | key | string |
+| `$db.list.get({ key })` | key | string |
+| `$db.list.create({ key, value })` | key, value | key: string; value: array |
+| `$db.list.update({ key, value })` | key, value | string, array |
+| `$db.list.append({ key, value })` | key, value | string, array |
+| `$db.list.prepend({ key, value })` | key, value | string, array |
+| `$db.list.updateItemAtIndex({ key, value, index })` | key, value, index | string, array, number |
+| `$db.list.removeItemAtIndex({ key, index })` | key, index | string, number |
+| `$db.map.get({ key })` | key | string |
+| `$db.map.create({ key, value })` | key, value | key: string; value: object (JSON-serializable) |
+| `$db.map.update({ key, value })` | key, value | string, object |
+| `$db.map.delete({ key })` | key | string |
+| `$db.boolean.get({ key })` | key | string |
+| `$db.boolean.create({ key, value })` | key, value | key: string; value: boolean |
+| `$db.boolean.update({ key, value })` | key, value | string, boolean |
+| `$db.boolean.delete({ key })` | key | string |
+
+---
+
+### $http
+
+| Function | Params | Types / constraints |
+|----------|--------|----------------------|
+| `$http.request({ url, query, method, headers, body })` | url, query, method, headers, body | **url** (string, required): must start with `http://` or `https://`, max 2048 chars. **method** (string, required): `GET` \| `POST` \| `PUT` \| `DELETE` \| `PATCH`. **headers** (object, required): string key/value, max 1000 keys, each value max 1000 chars. **body** (object, required): same. **query** (object, required): same. **iparams:** Define keys in manifest `installation_params`; use `<%=iparams.<key>%>` in url, headers, or body for runtime replacement. See [http.MD](httpFunction/http.MD). |
+
+---
+
+### $file
+
+**Common params:** `path` (string, required), `visibility` (string, optional, default `"PUBLIC"`: `"PUBLIC"` \| `"PRIVATE"`).
+
+| Function | Params | Notes |
+|----------|--------|--------|
+| `$file.getUploadUrl({ path, visibility })` | path, visibility | Signed URL for upload. |
+| `$file.getDownloadUrl({ path, visibility })` | path, visibility | Signed URL for download/read. |
+| `$file.delete({ path, visibility })` | path, visibility | Delete file at path. |
+| `$file.list({ path, visibility })` | path, visibility | List objects under path. |
+| `$file.exists({ path, visibility })` | path, visibility | Check if file exists. |
+
+---
+
+### $next
+
+| Function | Params | Types / constraints |
+|----------|--------|----------------------|
+| `$next.run({ functionName, payload, delay })` | functionName, payload, delay | **functionName** (string, required). **payload** (object, required). **delay** (number, optional, default 0): seconds before execution, >= 0. |
+
+---
+
+### $schedule
+
+**Common for create/update:** `name` (string, required, max 30), `type` (string, required: `ONE_TIME` \| `CRON` \| `RECURRING`), `data` (object, required, at least one key).
+
+| Function | Params | Types / constraints |
+|----------|--------|----------------------|
+| `$schedule.create({ name, type, data, runAt? \| cronExpression? \| repeat? })` | name, type, data + type-specific | **ONE_TIME:** `runAt` (string, required, valid date e.g. ISO 8601). **CRON:** `cronExpression` (string, required). **RECURRING:** `repeat: { frequency, timeUnit }` — frequency (integer >= 1; >= 10 if timeUnit is MINUTES), timeUnit: `MINUTES` \| `HOURS` \| `DAYS` \| `WEEKS` \| `MONTHS` \| `YEARS`. |
+| `$schedule.get({ name, type })` | name, type | name: string; type: ONE_TIME \| CRON \| RECURRING |
+| `$schedule.update({ name, type, data, runAt? \| cronExpression? \| repeat? })` | same as create | Same type-specific rules as create. |
+| `$schedule.pause({ name, type })` | name, type | string, string |
+| `$schedule.resume({ name, type })` | name, type | string, string |
+| `$schedule.delete({ name, type })` | name, type | string, string |
+
+---
+
+### getTraceId
+
+| Function | Params | Return |
+|----------|--------|--------|
+| `getTraceId()` | none | string (trace ID for logging/correlation) |
+
+---
 
 ## Usage in handlers
 
-Use the SDK inside any function you export from `app-backend/server.js` (API or event handler). Handlers receive **`{ payload }`**:
+Typical pattern inside a Lambda or handler:
 
 ```javascript
-const { AppnestFunctions, ResultData } = require('@aravinthan_p/appnest-sdk-utils');
-const { $db, $http, $next, getTraceId } = AppnestFunctions;
+const { $db, $http, $file, $next, $schedule, getTraceId } = require('appnest-sdk-utils');
 
-const myApiHandler = async ({ payload }) => {
+exports.myHandler = async (event, context) => {
   const traceId = getTraceId();
-
-  await AppnestFunctions.$db.string.create({ key: 'my_key', value: payload.input });
-  const row = await AppnestFunctions.$db.string.get({ key: 'config' });
-  const res = await AppnestFunctions.$http.request({
-    url: 'https://api.example.com',
-    method: 'GET',
-    headers: {},
-    body: {},
-    query: {},
-  });
-  await AppnestFunctions.$next.run({ functionName: 'otherFn', payload: { id: 1 }, delay: 0 });
-
-  return new ResultData({ body: { row, res }, statusCode: 200 });
+  // Use $db, $http, $file, $next, $schedule as needed
+  const row = await $db.string.get({ key: 'config' });
+  await $http.request({ url: 'https://api.example.com', method: 'GET', headers: {}, body: {}, query: {} });
+  await $next.run({ functionName: 'otherFn', payload: { id: 1 }, delay: 0 });
 };
-
-module.exports = { myApiHandler };
 ```
 
-For full signatures and per-module docs, see the Appnest SDK package or platform docs.
+**Code generation:** Use this single file as the only input; it contains all SDK function names, signatures, and param details needed to generate correct calls to `$db`, `$http`, `$file`, `$next`, `$schedule`, and `getTraceId`.
