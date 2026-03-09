@@ -40,7 +40,7 @@ Each module has a dedicated MD file with full signatures, parameters, and exampl
 | Module    | Doc file              | Summary |
 |-----------|------------------------|--------|
 | **$db**   | [dbFunction/db.MD](dbFunction/db.MD) | Key/value by type: STRING, NUMBER, LIST, MAP, BOOLEAN. Common param: `key` (string). |
-| **$http** | [httpFunction/http.MD](httpFunction/http.MD) | `$http.request({ url, method, headers, body, query })`. Methods: GET, POST, PUT, DELETE, PATCH. For API keys/URLs from manifest, define `installation_params` and use `<%=iparams.<key>%>` in url/headers/body. |
+| **$http** | [httpFunction/http.MD](httpFunction/http.MD) | `$http.request({ url, method, headers, body, query })`. Methods: GET, POST, PUT, DELETE, PATCH. Use `<%=iparams.<key>%>` for manifest params; use `<%=access_token%>` in headers for platform token (framework replaces at runtime). |
 | **$file** | [fileFunction/file.MD](fileFunction/file.MD) | `getUploadUrl`, `getDownloadUrl`, `delete`, `list`, `exists`. Params: `path`, `visibility` (optional). |
 | **$next** | [nextFunction/next.MD](nextFunction/next.MD) | `$next.run({ functionName, payload, delay })`. Delay in seconds. |
 | **$schedule** | [scheduleFunction/schedule.MD](scheduleFunction/schedule.MD) | Types: ONE_TIME, CRON, RECURRING. `name`, `type`, `data` required; type-specific: `runAt`, `cronExpression`, or `repeat`. |
@@ -95,7 +95,7 @@ All functions return `Promise<{ data, status }>` unless noted.
 
 | Function | Params | Types / constraints |
 |----------|--------|----------------------|
-| `$http.request({ url, query, method, headers, body })` | url, query, method, headers, body | **url** (string, required): must start with `http://` or `https://`, max 2048 chars. **method** (string, required): `GET` \| `POST` \| `PUT` \| `DELETE` \| `PATCH`. **headers** (object, required): string key/value, max 1000 keys, each value max 1000 chars. **body** (object, required): same. **query** (object, required): same. **iparams:** Define keys in manifest `installation_params`; use `<%=iparams.<key>%>` in url, headers, or body for runtime replacement. See [http.MD](httpFunction/http.MD). |
+| `$http.request({ url, query, method, headers, body })` | url, query, method, headers, body | **url** (string, required): must start with `http://` or `https://`, max 2048 chars. **method** (string, required): `GET` \| `POST` \| `PUT` \| `DELETE` \| `PATCH`. **headers** (object, required): string key/value, max 1000 keys, each value max 1000 chars. **body** (object, required): same. **query** (object, required): same. **Runtime replacement:** Use `<%=iparams.<key>%>` for manifest params; use `<%=access_token%>` in headers for platform token (AppNest framework replaces at runtime). See [http.MD](httpFunction/http.MD). |
 
 ---
 
