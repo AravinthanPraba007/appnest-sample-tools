@@ -4,6 +4,7 @@
 
 **Trigger:** {{flow_1_trigger}}  
 **Actor:** {{flow_1_actor}}  
+**Screen(s):** {{flow_1_screens}} (optional: from 11-ui-screens; e.g. Dashboard, Settings)  
 **Steps:**
 
 1. {{flow_1_step_1}}
@@ -20,6 +21,7 @@
 
 **Trigger:** {{flow_2_trigger}}  
 **Actor:** {{flow_2_actor}}  
+**Screen(s):** {{flow_2_screens}}  
 **Steps:**
 
 1. {{flow_2_step_1}}

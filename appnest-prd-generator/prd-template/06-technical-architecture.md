@@ -9,15 +9,16 @@ This app follows the AppNest framework. Reference: `appnest-tools/appnest-govern
 - **Single entry:** `app-backend/server.js`. Only **exported** functions are invokable (as API or event handlers).
 - **No Express/routes:** The framework provides routing. Implement handlers in separate files (e.g. `controller/*.js`, `eventHandler.js`) and re-export from `server.js`.
 - **All I/O via AppNest SDK:** Use `$db` for persistence, `$http` for outbound HTTP, `$file` for files, `$next` for invoking other functions, `$schedule` for scheduled jobs. Do **not** use axios/fetch or raw DB clients.
-- **Do not add** `@aravinthan_p/appnest-sdk-utils` to `app-backend/package.json`; the SDK is provided by the platform at runtime.
+- **Do not add** `@aravinthan_p/appnest-app-sdk-utils` to `app-backend/package.json`; the SDK is provided by the platform at runtime.
 - **Handlers** receive `{ payload }` and return a plain object or `ResultData({ body, statusCode })` for HTTP-style responses.
 
 ### Frontend
 
+- **Stack:** The frontend is a **React** application; React and react-dom are provided by the platform.
 - **Single entry:** `app-frontend/src/App.jsx` is the root component loaded by the framework.
 - **Backend calls:** Use `window.appnestClient.backend.invoke({ functionName, payload })`. `functionName` must match an export from `app-backend/server.js` and a key in `manifest.json` → `backend_api_functions`.
 - **Do not add** `react` or `react-dom` to `app-frontend/package.json`; they are provided by the platform.
-- **UI components:** Use **`@sparrowengg/twigs-react`** (React UI components) and **`@sparrowengg/twigs-react-icons`** (SVG icons). Add these to `app-frontend/package.json` when building UI. Twigs is SurveySparrow’s themeable, customisable, and fully accessible component library.
+- **UI components:** Use **`@sparrowengg/twigs-react`** (React UI components) and **`@sparrowengg/twigs-react-icons`** (SVG icons). Add these to `app-frontend/package.json` when building UI with version **`"*"`** (latest)—do not pin to versions like `^2.0.0` that may not exist. Twigs is SurveySparrow’s themeable, customisable, and fully accessible component library.
 
 ### Manifest
 

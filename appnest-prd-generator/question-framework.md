@@ -39,6 +39,8 @@ Structured follow-up questions to go from an app idea to a complete, buildable P
 | F3 | Does the app need a **UI** (full-page app), or only **backend** (events/API)? Or both? | Drives frontend_locations + backend_api_functions. |
 | F4 | Are there **configurable settings** (e.g. mappings, filters, toggles) the user must set? List them. | Configuration / installation_params. |
 | F5 | Does the app react to **platform events** (e.g. submission complete, contact created)? Which ones? | event_listener_functions. |
+| F6 | If the app has a **full-page UI**: how many **main screens/views** are there? List each screen **name** and **one-line purpose**. | 11-ui-screens overview; screens should align with user flows. |
+| F7 | For each screen: **how does the user reach it**? **Layout/sections** (use Stack, Box)? **Exact Twigs components** per element (Button, Select, Input, Alert, Table, Spinner, Text—no raw HTML). **User actions** and which **backend functionName** each calls? **Data shown** (source)? **Empty/loading/error** using Twigs (Text, Spinner, Alert)? Implementation must use **only** Twigs for that screen. | 11-ui-screens per-screen spec; tie actions to 08-api-contracts; see 07-Twigs-UI-Reference. |
 
 **When to ask deeper:** If “sync” or “integration” is mentioned, ask: real-time (event-driven) vs batch vs both, and what “success” looks like (e.g. row in external system, no duplicates).
 
@@ -53,8 +55,11 @@ Structured follow-up questions to go from an app idea to a complete, buildable P
 | D3 | Where is data **stored**? (Only AppNest $db, or also external system?) | $db usage + external systems. |
 | D4 | What **$db types** will you use per key pattern? (e.g. string for JSON blob, map for key-value, list for arrays) | Align with SDK: string, number, list, map, boolean. |
 | D5 | Is there any **sensitive data**? How is it handled? (installation_params, oauth, no hardcoding) | Secrets in manifest only. |
+| D6 | Does the app **upload, download, list, or delete files**? If yes: what **paths** or path patterns? **Visibility** (PUBLIC vs PRIVATE)? Which handlers use $file (getUploadUrl, getDownloadUrl, delete, list, exists)? | File storage ($file); 07-data-model file section. |
+| D7 | Does the app need **scheduled jobs** (cron, one-time, recurring)? For each: **name**, **type** (ONE_TIME / CRON / RECURRING), **target function** (export name from server.js), **schedule** (e.g. cron expression, runAt, or repeat)? | Scheduled jobs ($schedule); 08 or 06. |
+| D8 | Does any handler **invoke another function** via $next? If yes: **caller function**, **target function name**, **payload shape**, **delay** (seconds)? | Function chaining ($next); 08-api-contracts. |
 
-**When to ask deeper:** If the app “pushes” data elsewhere, ask: idempotency (how duplicates are avoided), retries, and whether external IDs are stored in $db.
+**When to ask deeper:** If the app “pushes” data elsewhere, ask: idempotency (how duplicates are avoided), retries, and whether external IDs are stored in $db. If the app uses files, ask: path naming convention and who generates paths (user vs app).
 
 ---
 
@@ -113,8 +118,8 @@ Structured follow-up questions to go from an app idea to a complete, buildable P
 
 - **Vision:** Idea is vague → ask for one concrete user outcome and one measurable success criterion.
 - **Users:** Multiple roles → ask which single role is v1; document rest as future.
-- **Features:** “Sync” or “integration” → clarify real-time vs batch, success definition, duplicate handling.
-- **Data:** “Pushes data out” → clarify idempotency, retries, external ID storage.
+- **Features:** “Sync” or “integration” → clarify real-time vs batch, success definition, duplicate handling. Full-page UI → clarify main screens and, for each screen, actions and backend functionName.
+- **Data:** “Pushes data out” → clarify idempotency, retries, external ID storage. Files → path convention and visibility. Scheduled/chained work → which function runs when, and which function calls which via $next.
 - **Permissions:** OAuth → clarify token refresh (scheduled vs on-demand).
 - **Integrations:** Sync/push → clarify payload size, batching, partial failure handling.
 - **NFRs:** High volume → clarify $next/$schedule and timeout strategy.

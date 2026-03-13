@@ -4,18 +4,18 @@ This document is the **single source of truth** for the Appnest custom SDK funct
 
 **For code generation:** This file is self-contained. All function signatures, parameters, types, and constraints are below; no other MD files are required to generate code that calls these SDK functions.
 
-**Do not add `@aravinthan_p/appnest-sdk-utils` (or `appnest-sdk-utils`) to `app-backend/package.json`.** The SDK is provided by the AppNest platform at runtime. Your backend code should `require('@aravinthan_p/appnest-sdk-utils')` (or the package name configured by the platform) without listing it as a dependency.
+**Do not add `@aravinthan_p/appnest-app-sdk-utils` (or `appnest-app-sdk-utils`) to `app-backend/package.json`.** The SDK is provided by the AppNest platform at runtime. Your backend code should `require('@aravinthan_p/appnest-app-sdk-utils')` (or the package name configured by the platform) without listing it as a dependency.
 
 ---
 
 ## Import
 
 ```javascript
-const AppnestFunctions = require('appnest-sdk-utils');
-// or from path:
-// const AppnestFunctions = require('<path-to-sdk>/appnestFunctions');
+const AppnestFunctions = require('@aravinthan_p/appnest-app-sdk-utils');
+// or the package name configured by the platform (e.g. appnest-app-sdk-utils)
 
 const { $db, $file, $http, $next, $schedule, getTraceId } = AppnestFunctions;
+const { ResultData } = require('@aravinthan_p/appnest-app-sdk-utils');  // for HTTP-style responses
 ```
 
 ---
@@ -32,18 +32,6 @@ const { $db, $file, $http, $next, $schedule, getTraceId } = AppnestFunctions;
 | **getTraceId** | Request trace ID       | `getTraceId()` → string (for logging/correlation) |
 
 ---
-
-## Module details (per-function docs)
-
-Each module has a dedicated MD file with full signatures, parameters, and examples. Paths are relative to `appnestFunctions/`:
-
-| Module    | Doc file              | Summary |
-|-----------|------------------------|--------|
-| **$db**   | [dbFunction/db.MD](dbFunction/db.MD) | Key/value by type: STRING, NUMBER, LIST, MAP, BOOLEAN. Common param: `key` (string). |
-| **$http** | [httpFunction/http.MD](httpFunction/http.MD) | `$http.request({ url, method, headers, body, query })`. Methods: GET, POST, PUT, DELETE, PATCH. Use `<%=iparams.<key>%>` for manifest params; use `<%=access_token%>` in headers for platform token (framework replaces at runtime). |
-| **$file** | [fileFunction/file.MD](fileFunction/file.MD) | `getUploadUrl`, `getDownloadUrl`, `delete`, `list`, `exists`. Params: `path`, `visibility` (optional). |
-| **$next** | [nextFunction/next.MD](nextFunction/next.MD) | `$next.run({ functionName, payload, delay })`. Delay in seconds. |
-| **$schedule** | [scheduleFunction/schedule.MD](scheduleFunction/schedule.MD) | Types: ONE_TIME, CRON, RECURRING. `name`, `type`, `data` required; type-specific: `runAt`, `cronExpression`, or `repeat`. |
 
 ---
 
@@ -95,7 +83,7 @@ All functions return `Promise<{ data, status }>` unless noted.
 
 | Function | Params | Types / constraints |
 |----------|--------|----------------------|
-| `$http.request({ url, query, method, headers, body })` | url, query, method, headers, body | **url** (string, required): must start with `http://` or `https://`, max 2048 chars. **method** (string, required): `GET` \| `POST` \| `PUT` \| `DELETE` \| `PATCH`. **headers** (object, required): string key/value, max 1000 keys, each value max 1000 chars. **body** (object, required): same. **query** (object, required): same. **Runtime replacement:** Use `<%=iparams.<key>%>` for manifest params; use `<%=access_token%>` in headers for platform token (AppNest framework replaces at runtime). See [http.MD](httpFunction/http.MD). |
+| `$http.request({ url, query, method, headers, body })` | url, query, method, headers, body | **url** (string, required): must start with `http://` or `https://`, max 2048 chars. **method** (string, required): `GET` \| `POST` \| `PUT` \| `DELETE` \| `PATCH`. **headers** (object, required): string key/value, max 1000 keys, each value max 1000 chars. **body** (object, required): same. **query** (object, required): same. **Runtime replacement:** Use `<%=iparams.<key>%>` for manifest params; use `<%=access_token%>` in headers for platform token (AppNest framework replaces at runtime). |
 
 ---
 
@@ -146,18 +134,22 @@ All functions return `Promise<{ data, status }>` unless noted.
 
 ## Usage in handlers
 
-Typical pattern inside a Lambda or handler:
+Use the SDK inside any function you export from `app-backend/server.js`. Handlers receive **`{ payload }`**:
 
 ```javascript
-const { $db, $http, $file, $next, $schedule, getTraceId } = require('appnest-sdk-utils');
+const AppnestFunctions = require('@aravinthan_p/appnest-app-sdk-utils');
+const { ResultData } = require('@aravinthan_p/appnest-app-sdk-utils');
+const { $db, $http, $file, $next, $schedule, getTraceId } = AppnestFunctions;
 
-exports.myHandler = async (event, context) => {
+const myApiHandler = async ({ payload }) => {
   const traceId = getTraceId();
-  // Use $db, $http, $file, $next, $schedule as needed
   const row = await $db.string.get({ key: 'config' });
   await $http.request({ url: 'https://api.example.com', method: 'GET', headers: {}, body: {}, query: {} });
   await $next.run({ functionName: 'otherFn', payload: { id: 1 }, delay: 0 });
+  return new ResultData({ body: { row }, statusCode: 200 });
 };
+
+module.exports = { myApiHandler };
 ```
 
-**Code generation:** Use this single file as the only input; it contains all SDK function names, signatures, and param details needed to generate correct calls to `$db`, `$http`, `$file`, `$next`, `$schedule`, and `getTraceId`.
+**Code generation:** This file is self-contained; use it as the single source for SDK function names, signatures, and param details.
