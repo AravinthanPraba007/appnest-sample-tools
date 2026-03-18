@@ -13,7 +13,7 @@
 
 **Outcome:** {{flow_1_outcome}}
 
-**AppNest note:** If this flow is triggered by a platform event, the handler name must be exported from `app-backend/server.js` and declared in `manifest.json` under `event_listener_functions`. If triggered by the UI, the frontend calls `window.appnestClient.backend.invoke({ functionName, payload })` where `functionName` is declared in `backend_api_functions`.
+**AppNest note:** If this flow is triggered by a platform event, the handler name must be exported from `app-backend/server.js` and declared in `manifest.json` under `event_listener_functions`. If triggered by the UI, the frontend calls `window.appnestClientFunctions.appBackend.invoke({ apiFunctionName, payload })` where `apiFunctionName` is declared in `backend_api_functions`.
 
 ---
 

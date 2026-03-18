@@ -5,7 +5,7 @@
 - Every invokable backend function must be **exported** from `app-backend/server.js`.
 - Every such function must be declared in `manifest.json`: **API** → `backend_api_functions`, **Event** → `event_listener_functions` with `handler` set to the function name.
 - Handlers receive **`{ payload }`**. Return a plain object or `ResultData({ body, statusCode })`.
-- Frontend calls backend via **`window.appnestClient.backend.invoke({ functionName, payload })`**.
+- Frontend calls backend via **`window.appnestClientFunctions.appBackend.invoke({ apiFunctionName, payload })`**.
 
 ---
 
@@ -75,7 +75,7 @@ List every platform event the app subscribes to. Each `handler` must be a functi
 
 ## Scheduled jobs ($schedule)
 
-If the app uses the AppNest **$schedule** API (create, get, update, pause, resume, delete), list each job. The **target function** must be exported from `app-backend/server.js`. See `appnest-tools/appnest-governance/02-sdk/05-SDK-Reference.md`.
+If the app uses the AppNest **$schedule** API (create, get, update, pause, resume, delete), list each job. The **target function** must be exported from `app-backend/server.js`. See `appnest-tools/appnest-governance/02-sdk/Backend-Appnest-SDK-Reference.md`.
 
 | Job name | Type | Target function | Schedule (runAt / cronExpression / repeat) | Notes |
 |----------|------|------------------|--------------------------------------------|--------|

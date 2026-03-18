@@ -16,7 +16,7 @@ This app follows the AppNest framework. Reference: `appnest-tools/appnest-govern
 
 - **Stack:** The frontend is a **React** application; React and react-dom are provided by the platform.
 - **Single entry:** `app-frontend/src/App.jsx` is the root component loaded by the framework.
-- **Backend calls:** Use `window.appnestClient.backend.invoke({ functionName, payload })`. `functionName` must match an export from `app-backend/server.js` and a key in `manifest.json` → `backend_api_functions`.
+- **Backend calls:** Use `window.appnestClientFunctions.appBackend.invoke({ apiFunctionName, payload })`. `apiFunctionName` must match an export from `app-backend/server.js` and a key in `manifest.json` → `backend_api_functions`.
 - **Do not add** `react` or `react-dom` to `app-frontend/package.json`; they are provided by the platform.
 - **UI components:** Use **`@sparrowengg/twigs-react`** (React UI components) and **`@sparrowengg/twigs-react-icons`** (SVG icons). Add these to `app-frontend/package.json` when building UI with version **`"*"`** (latest)—do not pin to versions like `^2.0.0` that may not exist. Twigs is SurveySparrow’s themeable, customisable, and fully accessible component library.
 

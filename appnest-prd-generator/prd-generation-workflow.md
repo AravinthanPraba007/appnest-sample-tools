@@ -60,9 +60,9 @@ Step-by-step execution to turn an app idea and question answers into a complete,
    - `{{mvp_scope}}`, `{{milestones}}`
 3. In `06-technical-architecture.md`, ensure:
    - Backend entry is **`app-backend/server.js`** and only exported functions are invokable.
-   - Frontend entry is **`app-frontend/src/App.jsx`**; backend is called via **`window.appnestClient.backend.invoke({ functionName, payload })`**.
+   - Frontend entry is **`app-frontend/src/App.jsx`**; backend is called via **`window.appnestClientFunctions.appBackend.invoke({ apiFunctionName, payload })`**.
    - All I/O uses AppNest SDK ($db, $http, $file, $next, $schedule); no axios/fetch; no adding SDK to backend package.json; no react/react-dom in frontend package.json.
-   - UI components use **`@sparrowengg/twigs-react`** and **`@sparrowengg/twigs-react-icons`**; in package.json use version **`"*"`** (latest), not a fixed version that may not exist (e.g. ^2.0.0). See appnest-governance/02-sdk/07-Twigs-UI-Reference.md.
+   - UI components use **`@sparrowengg/twigs-react`** and **`@sparrowengg/twigs-react-icons`**; in package.json use version **`"*"`** (latest), not a fixed version that may not exist (e.g. ^2.0.0). See appnest-governance/04-frontend/07-Twigs-UI-Reference.md.
 4. In `08-api-contracts.md`, ensure every backend function and event handler is named and matches the manifest schema (backend_api_functions, event_listener_functions).
 5. In `07-data-model.md`, ensure every persistent entity has a storage strategy and key pattern using $db types (string, number, list, map, boolean).
 
@@ -86,7 +86,7 @@ Step-by-step execution to turn an app idea and question answers into a complete,
 
 ## Step 4: Architecture alignment check
 
-**Input:** Filled PRD; governance docs: [01-architecture/03-Entry-Points-and-Implementation.md](../appnest-governance/01-architecture/03-Entry-Points-and-Implementation.md), [02-sdk/04-AppNest-SDK-Usage-Rules.md](../appnest-governance/02-sdk/04-AppNest-SDK-Usage-Rules.md), [02-sdk/05-SDK-Reference.md](../appnest-governance/02-sdk/05-SDK-Reference.md), [02-sdk/06-Manifest-Rules.md](../appnest-governance/02-sdk/06-Manifest-Rules.md), [03-integration-standards/07-External-API-Standards.md](../appnest-governance/03-integration-standards/07-External-API-Standards.md), [01-architecture/01-Architecture-Principles.md](../appnest-governance/01-architecture/01-Architecture-Principles.md).
+**Input:** Filled PRD; governance docs: [01-architecture/03-Entry-Points-and-Implementation.md](../appnest-governance/01-architecture/03-Entry-Points-and-Implementation.md), [02-sdk/04-AppNest-SDK-Usage-Rules.md](../appnest-governance/02-sdk/04-AppNest-SDK-Usage-Rules.md), [02-sdk/Backend-Appnest-SDK-Reference.md](../appnest-governance/02-sdk/Backend-Appnest-SDK-Reference.md), [02-sdk/06-Manifest-Rules.md](../appnest-governance/02-sdk/06-Manifest-Rules.md), [03-integration-standards/07-External-API-Standards.md](../appnest-governance/03-integration-standards/07-External-API-Standards.md), [01-architecture/01-Architecture-Principles.md](../appnest-governance/01-architecture/01-Architecture-Principles.md).
 
 **Actions:**
 

@@ -52,7 +52,7 @@ When adding Twigs to **`app-frontend/package.json`**, use **`"*"`** as the versi
 ## Responsive and SaaS product
 
 - **Responsive:** Use **responsive** Twigs components and layout so the app works on **desktop, tablet, and mobile**. Prefer Stack/Box with responsive props (e.g. direction or breakpoints) where Twigs supports them; avoid fixed pixel widths that break on small screens. The app should adapt to the viewport and remain usable at all sizes.
-- **SaaS “wow” UI:** The app is **embedded in a SaaS product** and will be judged against that context. Deliver a **polished, professional** look and feel: clear visual hierarchy, readable typography, coherent spacing, and interactions that feel native to the host. Aim for a “wow” experience—consistent, modern, and high-quality—so the app does not feel like a disconnected or dated widget.
+- **SaaS "wow" UI:** The app is **embedded in a SaaS product** and will be judged against that context. Deliver a **polished, professional** look and feel: clear visual hierarchy, readable typography, coherent spacing, and interactions that feel native to the host. Aim for a "wow" experience—consistent, modern, and high-quality—so the app does not feel like a disconnected or dated widget.
 
 ---
 
@@ -60,4 +60,4 @@ When adding Twigs to **`app-frontend/package.json`**, use **`"*"`** as the versi
 
 - **All screens** must use only Twigs (and twigs-react-icons). No mix of Twigs on one screen and raw HTML on another.
 - **Do not** rely on custom classes like `.btn`, `.alert`, `.run-list` in App.css when Twigs provides equivalent components. Use Twigs everywhere so the app looks like a single design system.
-- For the exact component names and props, refer to the **Twigs** package documentation; this reference is for mapping “what to use instead of raw HTML” when generating code.
+- For the exact component names and props, refer to the **Twigs** package documentation; this reference is for mapping "what to use instead of raw HTML" when generating code.

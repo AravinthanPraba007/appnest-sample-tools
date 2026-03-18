@@ -1,6 +1,6 @@
 # Appnest frontend — Twigs UI rule (for Cursor / AI)
 
-When building or editing **Appnest app frontend** UI (`app-frontend/` or paths under `app-frontend/`), apply this rule. This file is the canonical source for the Cursor rule; the project’s `.cursor/rules/appnest-twigs-ui.mdc` points here.
+When building or editing **Appnest app frontend** UI (`app-frontend/` or paths under `app-frontend/`), apply this rule. **When generating frontend code, read [frontend-rules.md](frontend-rules.md) first**—it enforces entry, backend invoke, Twigs, responsive, and SaaS "wow". This file adds Twigs-specific detail. All frontend enforcement is in appnest-governance (frontend-rules.md and this file); no .cursor/rules file is used.
 
 ---
 
@@ -27,11 +27,11 @@ When building or editing **Appnest app frontend** UI (`app-frontend/` or paths u
 
 - Use **responsive** Twigs components and layout so the app works on desktop, tablet, and mobile. Avoid fixed widths that break on small screens.
 
-## 5. SaaS “wow” UI
+## 5. SaaS "wow" UI
 
 - The app is **viewed inside a SaaS product**. Deliver a **polished, professional** look and feel—clear hierarchy, readable typography, coherent spacing—so it feels native to the host and meets the quality users expect from a modern SaaS app.
 
 ## 6. Before considering UI complete
 
 - Verify: (a) both Twigs packages are in package.json, (b) no raw HTML for buttons/inputs/selects/tables, (c) layout uses Stack/Box, (d) UI is responsive and polished for a SaaS context.
-- See [09-Code-Review-and-AI-Generation-Checklist.md](../03-integration-standards/09-Code-Review-and-AI-Generation-Checklist.md) — “Frontend UI (Twigs)” section.
+- See [09-Code-Review-and-AI-Generation-Checklist.md](../03-integration-standards/09-Code-Review-and-AI-Generation-Checklist.md) — "Frontend UI (Twigs)" section.

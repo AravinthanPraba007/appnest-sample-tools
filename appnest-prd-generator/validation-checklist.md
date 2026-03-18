@@ -46,7 +46,7 @@ Use this checklist after filling the PRD template and before marking the app **R
 | # | Check | Required | Pass / Fail / N/A | Notes |
 |---|--------|----------|-------------------|--------|
 | 4.1 | **Backend entry** is only **app-backend/server.js**; all invokable logic is exported from it (no custom routes/controllers). | Yes | ☐ Pass ☐ Fail ☐ Unclear | 06-technical-architecture; ref. appnest-tools/appnest-governance entry points. |
-| 4.2 | **Frontend entry** is **app-frontend/src/App.jsx**; backend is called only via **window.appnestClient.backend.invoke({ functionName, payload })**. | Yes | ☐ Pass ☐ Fail ☐ Unclear ☐ N/A | 06-technical-architecture. |
+| 4.2 | **Frontend entry** is **app-frontend/src/App.jsx**; backend is called only via **window.appnestClientFunctions.appBackend.invoke({ apiFunctionName, payload })**. | Yes | ☐ Pass ☐ Fail ☐ Unclear ☐ N/A | 06-technical-architecture. |
 | 4.3 | All external HTTP uses **$http** (no axios/fetch). All persistent state uses **$db**. Long-running/chained work uses **$schedule** or **$next**. | Yes | ☐ Pass ☐ Fail ☐ Unclear | 06 + 09; ref. SDK usage rules. |
 | 4.4 | **app-backend/package.json** does NOT list `@aravinthan_p/appnest-app-sdk-utils` (or appnest-app-sdk-utils). | Yes | ☐ Pass ☐ Fail ☐ Unclear | Platform-provided. |
 | 4.5 | **app-frontend/package.json** does NOT list `react` or `react-dom`. UI uses **@sparrowengg/twigs-react** and **@sparrowengg/twigs-react-icons** where applicable; use version **`"*"`** (latest), not a fixed version that may not exist (e.g. ^2.0.0). | Yes | ☐ Pass ☐ Fail ☐ Unclear ☐ N/A | 06-technical-architecture, 07-Twigs-UI-Reference. |

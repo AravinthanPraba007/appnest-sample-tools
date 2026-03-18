@@ -11,7 +11,7 @@ This document summarizes how well the PRD generator covers Appnest apps and what
 | **Backend API functions** | 08-api-contracts lists each function (name, purpose, payload, return, timeout); manifest snippet for `backend_api_functions`. |
 | **Event listeners** | 08-api-contracts lists each event and handler; manifest snippet for `event_listener_functions`. |
 | **Data / $db** | Question framework D1–D4 (entities, fields, where stored, $db types); 07-data-model has entities table with key pattern and $db type. |
-| **Entry points** | 06-technical-architecture and validation checklist enforce server.js + App.jsx, invoke({ functionName, payload }). |
+| **Entry points** | 06-technical-architecture and validation checklist enforce server.js + App.jsx, invoke({ apiFunctionName, payload }). |
 | **SDK in principle** | Workflow and 06 state that all I/O uses $db, $http, $file, $next, $schedule; no axios/fetch; no SDK in package.json. |
 | **Manifest** | installation_params, oauth_config, whitelisted_domains covered in questions and 08-api-contracts. |
 | **External APIs** | Integrations (I1–I4), idempotency/retries (6.1–6.3 in validation), 09-non-functional. |
