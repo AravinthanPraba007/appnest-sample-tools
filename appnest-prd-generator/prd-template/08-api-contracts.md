@@ -5,7 +5,7 @@
 - Every invokable backend function must be **exported** from `app-backend/server.js`.
 - Every such function must be declared in `manifest.json`: **API** → `backend_api_functions`, **Event** → `event_listener_functions` with `handler` set to the function name.
 - Handlers receive **`{ payload }`**. Return a plain object or `ResultData({ body, statusCode })`.
-- Frontend calls backend via **`window.appnestClient.backend.invoke({ functionName, payload })`**.
+- Frontend calls backend via **`window.appnestClientFunctions.appBackend.invoke({ apiFunctionName, payload })`**.
 
 ---
 
@@ -70,3 +70,28 @@ List every platform event the app subscribes to. Each `handler` must be a functi
 {{whitelisted_domains}}
 
 (List regex patterns for every external host the app calls: APIs, OAuth authorize/token URLs, etc.)
+
+---
+
+## Scheduled jobs ($schedule)
+
+If the app uses the AppNest **$schedule** API (create, get, update, pause, resume, delete), list each job. The **target function** must be exported from `app-backend/server.js`. See `appnest-tools/appnest-governance/02-sdk/Backend-Appnest-SDK-Reference.md`.
+
+| Job name | Type | Target function | Schedule (runAt / cronExpression / repeat) | Notes |
+|----------|------|------------------|--------------------------------------------|--------|
+| {{schedule_job_1_name}} | {{schedule_job_1_type}} | {{schedule_job_1_target_fn}} | {{schedule_job_1_schedule}} | {{schedule_job_1_notes}} |
+
+- **Type:** ONE_TIME (use runAt), CRON (use cronExpression), or RECURRING (use repeat: frequency + timeUnit).
+- If the app does **not** use $schedule, write *Not used* and remove the table.
+
+---
+
+## Function chaining ($next)
+
+If any handler invokes another function via **$next.run({ functionName, payload, delay })**, document each call. The target must be a function exported from `app-backend/server.js`.
+
+| Caller function | Target function | Payload shape | Delay (s) | Notes |
+|-----------------|-----------------|---------------|-----------|--------|
+| {{next_caller_1}} | {{next_target_1}} | {{next_payload_1}} | {{next_delay_1}} | {{next_notes_1}} |
+
+- If the app does **not** use $next, write *Not used* and remove the table.

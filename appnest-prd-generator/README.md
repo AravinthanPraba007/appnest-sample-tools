@@ -25,8 +25,8 @@ The generator does **not** produce a PRD for one specific idea; it defines the *
 3. **Fill the PRD template**  
    Use the templates under [prd-template/](prd-template/) and replace placeholders (e.g. `{{product_name}}`, `{{core_entities}}`) with answers from the idea + follow-up answers. Reference `appnest-tools/appnest-governance/` for AppNest-specific sections (entry points, SDK, manifest, UI libraries).
 
-4. **Execute the generation workflow**  
-   Follow [generation-workflow.md](generation-workflow.md) step by step: clarify idea → fill template → validate completeness → architecture alignment → final status.
+4. **Execute the PRD generation workflow**  
+   Follow [prd-generation-workflow.md](prd-generation-workflow.md) step by step: clarify idea → fill template → validate completeness → architecture alignment → final status.
 
 5. **Run the validation checklist**  
    Use [validation-checklist.md](validation-checklist.md). If every item passes → output **READY TO BUILD APP**. If any item fails or is unclear → output **CLARIFICATION REQUIRED** and list what’s missing.
@@ -58,6 +58,7 @@ After generation, the PRD lives as a set of markdown files (can be under a produ
 | `08-api-contracts.md` | Backend API functions, event listeners, payloads |
 | `09-non-functional-requirements.md` | Performance, security, external API standards |
 | `10-milestones.md` | MVP scope, phases, dependencies |
+| `11-ui-screens.md` | UI screens (when full-page app): per-screen purpose, entry, layout, actions with functionName, data shown, empty/loading/error |
 
 ---
 
@@ -88,7 +89,7 @@ and lists which checklist items failed or need clarification.
 The generator and templates assume:
 
 - **Backend:** `app-backend/server.js` is the single entry; only exported functions are invokable. All I/O uses AppNest SDK ($db, $http, $file, $next, $schedule); no axios/fetch; no adding SDK package to `package.json`.
-- **Frontend:** `app-frontend/src/App.jsx` is the root; backend is called via `window.appnestClient.backend.invoke({ functionName, payload })`. React/react-dom are platform-provided; UI built with `@sparrowengg/twigs-react` and `@sparrowengg/twigs-react-icons`.
+- **Frontend:** `app-frontend/src/App.jsx` is the root; backend is called via `window.appnestClientFunctions.appBackend.invoke({ apiFunctionName, payload })`. React/react-dom are platform-provided; UI built with `@sparrowengg/twigs-react` and `@sparrowengg/twigs-react-icons`.
 - **Manifest:** Every invokable backend function is listed in `backend_api_functions`; every event handler in `event_listener_functions`; OAuth and installation params declared as per manifest schema.
 - **Governance:** Details are in `appnest-tools/appnest-governance/` (entry points, SDK reference, SDK usage rules, manifest rules, external API standards, architecture principles).
 

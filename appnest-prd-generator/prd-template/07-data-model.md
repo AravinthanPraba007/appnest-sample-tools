@@ -2,7 +2,7 @@
 
 ## AppNest storage
 
-All persistent state must use the AppNest **$db** API. Types: `string`, `number`, `list`, `map`, `boolean`. Do not use in-memory state for cross-invocation data. See `appnest-tools/appnest-governance/02-sdk/05-SDK-Reference.md`.
+All persistent state must use the AppNest **$db** API. Types: `string`, `number`, `list`, `map`, `boolean`. Do not use in-memory state for cross-invocation data. See `appnest-tools/appnest-governance/02-sdk/Backend-Appnest-SDK-Reference.md`.
 
 ---
 
@@ -27,6 +27,20 @@ All persistent state must use the AppNest **$db** API. Types: `string`, `number`
 
 - **Secrets:** Stored only via platform (installation_params, oauth). Never in $db as plain text unless encrypted by platform.
 - **PII:** {{pii_handling}}
+
+## File storage ($file)
+
+If the app uses the AppNest **$file** API (getUploadUrl, getDownloadUrl, delete, list, exists), document paths and which handlers use them. See `appnest-tools/appnest-governance/02-sdk/Backend-Appnest-SDK-Reference.md`.
+
+| Path or pattern | Visibility | Operations used | Handler(s) | Notes |
+|-----------------|------------|------------------|------------|--------|
+| {{file_path_1}} | {{file_visibility_1}} | {{file_ops_1}} | {{file_handlers_1}} | {{file_notes_1}} |
+
+- **Key format:** Paths are strings; document prefix and variable parts (e.g. `exports/{{workspaceId}}/report.csv`).
+- **Visibility:** PUBLIC or PRIVATE (default PUBLIC).
+- If the app does **not** use $file, write *Not used* and remove the table.
+
+---
 
 ## External system data (if any)
 
