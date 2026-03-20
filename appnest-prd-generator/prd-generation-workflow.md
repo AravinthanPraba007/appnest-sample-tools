@@ -19,7 +19,7 @@ Step-by-step execution to turn an app idea and question answers into a complete,
 
 1. Treat the user's message as **input to the PRD generator**: either a raw idea (then run Step 1 to clarify) or a detailed PRD (then use it as answers and go to Step 2).
 2. Execute **Steps 1–5 only**: clarify (if needed), fill every template file from [prd-template/](prd-template/), validate, run architecture alignment, then output **READY TO BUILD APP** or **CLARIFICATION REQUIRED**.
-3. Deliver the **PRD content**: the filled markdown files (01–11) in a folder like `docs/prd-{{product_name}}/` or as markdown in your response. No code.
+3. Deliver the **PRD content**: the filled markdown files (01–11) in a folder like `app-prd-ai-doc/` or as markdown in your response. No code.
 
 **When is implementation allowed?** Only when the user **explicitly** asks for it in a **separate** request (e.g. "now implement it" or "generate the app from this PRD") after the PRD is complete. Tagging this workflow + providing a PRD/idea means "produce the PRD documents," not "build the app."
 
@@ -46,7 +46,7 @@ Step-by-step execution to turn an app idea and question answers into a complete,
 
 **Actions:**
 
-1. Copy each file under [prd-template/](prd-template/) into the target PRD folder (e.g. `docs/prd-{{product_name}}/`).
+1. Copy each file under [prd-template/](prd-template/) into the target PRD folder (e.g. `app-prd-ai-doc/`).
 2. Replace every placeholder with the corresponding answer:
    - `{{product_name}}`, `{{elevator_pitch}}`, `{{scope_v1}}`, `{{success_criteria}}`
    - `{{primary_persona}}`, `{{user_goal}}`, `{{pain_points}}`
@@ -115,7 +115,7 @@ Step-by-step execution to turn an app idea and question answers into a complete,
 
    **READY TO BUILD APP**
 
-   Optionally append: PRD location (e.g. `docs/prd-{{product_name}}/`), and a one-line summary (e.g. "Backend: X functions, Y events; Frontend: full-page app; Storage: Z $db keys").
+   Optionally append: PRD location (e.g. `app-prd-ai-doc/`), and a one-line summary (e.g. "Backend: X functions, Y events; Frontend: full-page app; Storage: Z $db keys").
 
 2. If **any** of the above is false, output:
 
