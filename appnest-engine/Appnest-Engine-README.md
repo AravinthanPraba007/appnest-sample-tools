@@ -2,7 +2,7 @@
 
 Development CLI and runtime for Appnest apps. It wires your **app-backend**, **app-frontend**, and optional **app-install-frontend** behind a single proxy, runs checks, and helps you bundle and zip the app for distribution.
 
-**Package:** `@aravinthan_p/appnest-engine` · **CLI binary:** `appnest-engine`
+**Package:** `@sparrowengg/appnest-engine` · **CLI binary:** `appnest-engine`
 
 For a focused list of commands, see **[Appnest-Engine-Commands.md](./Appnest-Engine-Commands.md)**.
 

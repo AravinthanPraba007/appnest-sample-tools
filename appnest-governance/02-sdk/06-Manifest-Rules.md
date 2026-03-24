@@ -2,12 +2,12 @@
 
 All apps must declare execution capabilities correctly in `manifest.json`. The manifest must reflect the actual handlers exported from `app-backend/server.js`. Mismatch between code and manifest is prohibited.
 
-**Structure:** Top-level keys are `platform_version`, `parent_product`, and **`product_config`**. All app-specific config (frontend, backend API, events, installation params, OAuth, whitelisted domains) lives under **`product_config.<product>`** where `<product>` is the parent product identifier (e.g. `surveysparrow`).
+**Structure:** Top-level keys are `platform_version`, `product_parent`, and **`product_config`**. All app-specific config (frontend, backend API, events, installation params, OAuth, whitelisted domains) lives under **`product_config.<product>`** where `<product>` is the parent product identifier (e.g. `surveysparrow`).
 
 **Cross-check (platform manifest ~2.0):** The following JSON shape is valid and matches this document—only the **values** (domain patterns, function names, param keys, OAuth placeholders) differ per app:
 
-- Top-level: `platform_version`, `parent_product`, `product_config` only.
-- Under `product_config.<product>` (key must match `parent_product`): `frontend_locations`, `whitelisted_domains`, `event_listener_functions`, `backend_api_functions`, `installation_parameters`, `oauth_config` — **no other top-level copies** of these keys.
+- Top-level: `platform_version`, `product_parent`, `product_config` only.
+- Under `product_config.<product>` (key must match `product_parent`): `frontend_locations`, `whitelisted_domains`, `event_listener_functions`, `backend_api_functions`, `installation_parameters`, `oauth_config` — **no other top-level copies** of these keys.
 
 ---
 
@@ -15,7 +15,7 @@ All apps must declare execution capabilities correctly in `manifest.json`. The m
 
 Use this file as the **single source of truth** when generating or editing `manifest.json`:
 
-- **MUST** use exactly three top-level keys: `platform_version`, `parent_product`, `product_config`. All app config **MUST** be nested under `product_config.<product>` (e.g. `product_config.surveysparrow`); the product key **MUST** match `parent_product`.
+- **MUST** use exactly three top-level keys: `platform_version`, `product_parent`, `product_config`. All app config **MUST** be nested under `product_config.<product>` (e.g. `product_config.surveysparrow`); the product key **MUST** match `product_parent`.
 - **MUST** use the key **`installation_parameters`** (iparams; not `installation_params`) for installation-time params. Each param object has `display_name`, `description`, `type` (e.g. `api_key`, `text`), `required`; optional: `data-bind`, `secure`, `default_value`.
 - **MUST** ensure every key in `backend_api_functions` and every `handler` in `event_listener_functions` is the **exact name** of a function **exported** from `app-backend/server.js`. Do not add manifest entries for functions that are not exported.
 - **MUST NOT** put `frontend_locations`, `backend_api_functions`, `event_listener_functions`, `installation_parameters`, `oauth_config`, or `whitelisted_domains` at the top level; they belong only under `product_config.<product>`.
@@ -54,12 +54,12 @@ The manifest must reflect the actual handlers exported from `app-backend/server.
 | Key | Type | Description |
 |-----|------|-------------|
 | `platform_version` | string | Platform version (e.g. `"2.0"`). |
-| `parent_product` | string | Parent product identifier (e.g. `"surveysparrow"`). |
+| `product_parent` | string | Parent product identifier (e.g. `"surveysparrow"`). |
 | `product_config` | object | Product-specific config. Key(s) = product identifier(s) (e.g. `surveysparrow`). Value = object with `frontend_locations`, `whitelisted_domains`, `event_listener_functions`, `backend_api_functions`, `installation_parameters`, `oauth_config`. See below. |
 
 ### product_config.<product> (e.g. product_config.surveysparrow)
 
-All app-specific manifest content lives under one product key (matching `parent_product`). Use **snake_case** for keys in the manifest.
+All app-specific manifest content lives under one product key (matching `product_parent`). Use **snake_case** for keys in the manifest.
 
 | Key | Type | Description |
 |-----|------|-------------|
@@ -75,7 +75,7 @@ All app-specific manifest content lives under one product key (matching `parent_
 ```json
 {
   "platform_version": "2.0",
-  "parent_product": "surveysparrow",
+  "product_parent": "surveysparrow",
   "product_config": {
     "surveysparrow": {
       "frontend_locations": {
@@ -252,7 +252,7 @@ Nested under **`product_config.<product>.oauth_config`**.
 | Location | Key | Type | Purpose |
 |----------|-----|------|---------|
 | Top-level | `platform_version` | string | e.g. `"2.0"` |
-| Top-level | `parent_product` | string | e.g. `"surveysparrow"` |
+| Top-level | `product_parent` | string | e.g. `"surveysparrow"` |
 | Top-level | `product_config` | object | Product key(s) → app config object |
 | Under product | `frontend_locations` | object | `{ full_page_app: { url: "index.html" } }` |
 | Under product | `whitelisted_domains` | string[] | Domain regex patterns |

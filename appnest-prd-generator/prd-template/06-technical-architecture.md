@@ -9,7 +9,7 @@ This app follows the AppNest framework. Reference: `appnest-tools/appnest-govern
 - **Single entry:** `app-backend/server.js`. Only **exported** functions are invokable (as API or event handlers).
 - **No Express/routes:** The framework provides routing. Implement handlers in separate files (e.g. `controller/*.js`, `eventHandler.js`) and re-export from `server.js`.
 - **All I/O via AppNest SDK:** Use `$db` for persistence, `$http` for outbound HTTP, `$file` for files, `$next` for invoking other functions, `$schedule` for scheduled jobs. Do **not** use axios/fetch or raw DB clients.
-- **Do not add** `@aravinthan_p/appnest-app-sdk-utils` to `app-backend/package.json`; the SDK is provided by the platform at runtime.
+- **Do not add** `@sparrowengg/appnest-app-sdk-utils` to `app-backend/package.json`; the SDK is provided by the platform at runtime.
 - **Handlers** receive `{ payload }` and return a plain object or `ResultData({ body, statusCode })` for HTTP-style responses.
 
 ### Frontend

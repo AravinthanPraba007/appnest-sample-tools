@@ -41,7 +41,7 @@ Full manifest schema: [06-Manifest-Rules.md](../02-sdk/06-Manifest-Rules.md).
 
 ### app-backend package.json
 
-- **Do not add `@aravinthan_p/appnest-app-sdk-utils` (or `appnest-app-sdk-utils`) to `app-backend/package.json` dependencies.** The AppNest SDK is provided by the platform at runtime. List only app-specific dependencies (e.g. `mssql`, other third-party libraries).
+- **Do not add `@sparrowengg/appnest-app-sdk-utils` (or `appnest-app-sdk-utils`) to `app-backend/package.json` dependencies.** The AppNest SDK is provided by the platform at runtime. List only app-specific dependencies (e.g. `mssql`, other third-party libraries).
 
 ### Example backend layout
 
@@ -56,7 +56,7 @@ Both API and event handlers receive a **payload**; use **AppnestFunctions** for 
 Use `ResultData` from the Appnest SDK when you need to control status and body:
 
 ```js
-const { AppnestFunctions, ResultData } = require('@aravinthan_p/appnest-app-sdk-utils');
+const { AppnestFunctions, ResultData } = require('@sparrowengg/appnest-app-sdk-utils');
 
 return new ResultData({
   body: { message: 'Success' },

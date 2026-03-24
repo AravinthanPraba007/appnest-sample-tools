@@ -2,7 +2,7 @@
 
 All external operations must use Appnest SDK primitives.
 
-**Package dependency:** Do not add `@aravinthan_p/appnest-app-sdk-utils` to `app-backend/package.json`. The SDK is provided by the platform at runtime.
+**Package dependency:** Do not add `@sparrowengg/appnest-app-sdk-utils` to `app-backend/package.json`. The SDK is provided by the platform at runtime.
 
 ## Rules summary (MUST / MUST NOT)
 
@@ -54,7 +54,7 @@ const axios = require('axios');
 const res = await axios.get('https://api.example.com');
 
 // DO
-const { $http } = require('@aravinthan_p/appnest-app-sdk-utils');
+const { $http } = require('@sparrowengg/appnest-app-sdk-utils');
 const { data, status } = await $http.request({ url: 'https://api.example.com', method: 'GET', headers: {}, body: {}, query: {} });
 ```
 
@@ -66,6 +66,6 @@ const cache = {};
 function getConfig() { return cache.config; }
 
 // DO
-const { $db } = require('@aravinthan_p/appnest-app-sdk-utils');
+const { $db } = require('@sparrowengg/appnest-app-sdk-utils');
 const { data } = await $db.string.get({ key: 'config' });
 ```
