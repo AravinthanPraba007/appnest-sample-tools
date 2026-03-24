@@ -4,6 +4,11 @@ All apps must declare execution capabilities correctly in `manifest.json`. The m
 
 **Structure:** Top-level keys are `platform_version`, `parent_product`, and **`product_config`**. All app-specific config (frontend, backend API, events, installation params, OAuth, whitelisted domains) lives under **`product_config.<product>`** where `<product>` is the parent product identifier (e.g. `surveysparrow`).
 
+**Cross-check (platform manifest ~2.0):** The following JSON shape is valid and matches this document—only the **values** (domain patterns, function names, param keys, OAuth placeholders) differ per app:
+
+- Top-level: `platform_version`, `parent_product`, `product_config` only.
+- Under `product_config.<product>` (key must match `parent_product`): `frontend_locations`, `whitelisted_domains`, `event_listener_functions`, `backend_api_functions`, `installation_parameters`, `oauth_config` — **no other top-level copies** of these keys.
+
 ---
 
 ## For AI / code generation
@@ -79,17 +84,24 @@ All app-specific manifest content lives under one product key (matching `parent_
         }
       },
       "whitelisted_domains": [
+        "https://(.*).signsparrow.com(.*)",
         "https://(.*).surveysparrow.com(.*)",
-        "https://api\\.surveysparrow\\.com(/.*)?"
+        "http://(.*).surveysparrow.test(.*)",
+        "https://hooks\\.slack\\.com(/.*)?",
+        "https://api\\.surveysparrow\\.com(/.*)?",
+        "https://api\\.signsparrow\\.com(/.*)?"
       ],
       "event_listener_functions": {
         "onSubmissionComplete": {
           "handler": "onSubmissionComplete"
+        },
+        "onContactCreate": {
+          "handler": "onSubmissionComplete"
         }
       },
       "backend_api_functions": {
-        "getMappings": { "timeout": 10 },
-        "saveMapping": { "timeout": 15 }
+        "function1": { "timeout": 30 },
+        "function2": { "timeout": 30 }
       },
       "installation_parameters": {
         "surveysparrow_api_key": {
@@ -142,6 +154,13 @@ Nested under **`product_config.<product>.frontend_locations`**.
 - Keys are location types (e.g. `full_page_app`).
 - Each value has `url` (string) pointing to the frontend entry (e.g. `index.html`).
 
+### whitelisted_domains
+
+Nested under **`product_config.<product>.whitelisted_domains`**.
+
+- **Type:** Array of **strings**, each typically a **regex pattern** for allowed outbound URLs (escape `.` in hostnames as `\\.` when needed, e.g. `https://api\\.surveysparrow\\.com(/.*)?`).
+- Include patterns for your product domains, APIs, webhooks (e.g. Slack), and test hosts as required by the app.
+
 ### event_listener_functions
 
 Nested under **`product_config.<product>.event_listener_functions`**.
@@ -150,12 +169,16 @@ Nested under **`product_config.<product>.event_listener_functions`**.
 "event_listener_functions": {
   "onSubmissionComplete": {
     "handler": "onSubmissionComplete"
+  },
+  "onContactCreate": {
+    "handler": "onSubmissionComplete"
   }
 }
 ```
 
-- **Keys:** Platform event names (e.g. `onSubmissionComplete`).
-- **Value:** Object with `handler` (string) = name of the function exported from **`app-backend/server.js`** that will be called when the event fires. The handler receives `{ payload }`.
+- **Keys:** Platform event names (e.g. `onSubmissionComplete`, `onContactCreate`).
+- **Value:** Object with **`handler`** (string) = name of the function exported from **`app-backend/server.js`** that will be called when the event fires. The handler receives `{ payload }`.
+- **Multiple events → one handler:** Different event keys may use the **same** `handler` string if one implementation handles several platform events (e.g. `onContactCreate` and `onSubmissionComplete` both `"onSubmissionComplete"`).
 
 ### backend_api_functions
 

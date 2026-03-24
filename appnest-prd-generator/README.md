@@ -44,7 +44,7 @@ No strict schema; the question framework will gather the rest.
 
 ## Output structure
 
-After generation, the PRD lives as a set of markdown files (can be under a product-specific folder, e.g. `docs/prd-{{product_name}}/`):
+After generation, the PRD lives as a set of markdown files (recommended location: **`app-prd-ai-doc/`** at the repo root, or equivalent):
 
 | File | Content |
 |------|--------|

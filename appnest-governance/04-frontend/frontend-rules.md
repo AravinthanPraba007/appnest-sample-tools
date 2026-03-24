@@ -38,7 +38,7 @@ if (response.statusCode >= 200 && response.statusCode < 300) {
 }
 ```
 
-For client SDK details (e.g. `appBackendInvoke` in other contexts), see [Frontend-Appnest-Reference.md](Frontend-Appnest-Reference.md).
+For the client bridge (`client.js`, `window.AppnestFunctions`), see [FrontendAppnestFunction-Reference.md](FrontendAppnestFunction-Reference.md).
 
 ---
 
