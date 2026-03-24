@@ -19,7 +19,7 @@ All detailed docs are in this directory (**appnest-governance**):
 | **Frontend rules (read first when generating UI)** | [frontend-rules.md](04-frontend/frontend-rules.md) — enforced for AI |
 | **Entry points, backend & frontend how-to, project structure** | [01-architecture/03-Entry-Points-and-Implementation.md](01-architecture/03-Entry-Points-and-Implementation.md) |
 | **SDK usage rules** | [02-sdk/04-AppNest-SDK-Usage-Rules.md](02-sdk/04-AppNest-SDK-Usage-Rules.md) |
-| **SDK reference** ($db, $http, $file, $next, $schedule) | [02-sdk/Backend-Appnest-SDK-Reference.md](02-sdk/Backend-Appnest-SDK-Reference.md) |
+| **SDK reference** ($db, $http, $file, $next, $schedule) | [02-sdk/BackendAppnestFunction-Reference.md](02-sdk/BackendAppnestFunction-Reference.md) |
 | **Manifest rules & schema** (code-generation) | [02-sdk/06-Manifest-Rules.md](02-sdk/06-Manifest-Rules.md) |
 | **Twigs UI reference** (use instead of raw HTML) | [04-frontend/07-Twigs-UI-Reference.md](04-frontend/07-Twigs-UI-Reference.md) |
 | **Architecture & flow classification** | [01-architecture/](01-architecture/) |

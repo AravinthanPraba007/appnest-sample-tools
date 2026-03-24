@@ -28,7 +28,7 @@ Fixed entry points and how to implement backend and frontend for Appnest apps.
 
 1. **Implement functions** (in any files you like, e.g. `sampleHandler.js`, `eventHandler.js`).
 2. **Export them from `server.js`**. Those exports are what the framework uses as **endpoints** and **event handlers**.
-3. **Use Appnest-provided utilities** for all external I/O (database, other APIs)—see [Backend-Appnest-SDK-Reference.md](../02-sdk/Backend-Appnest-SDK-Reference.md).
+3. **Use Appnest-provided utilities** for all external I/O (database, other APIs)—see [BackendAppnestFunction-Reference.md](../02-sdk/BackendAppnestFunction-Reference.md).
 
 So: **only the functions you export from `app-backend/server.js` are invoked by the framework**; no other backend file is used as an entry.
 

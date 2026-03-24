@@ -86,7 +86,7 @@ Step-by-step execution to turn an app idea and question answers into a complete,
 
 ## Step 4: Architecture alignment check
 
-**Input:** Filled PRD; governance docs: [01-architecture/03-Entry-Points-and-Implementation.md](../appnest-governance/01-architecture/03-Entry-Points-and-Implementation.md), [02-sdk/04-AppNest-SDK-Usage-Rules.md](../appnest-governance/02-sdk/04-AppNest-SDK-Usage-Rules.md), [02-sdk/Backend-Appnest-SDK-Reference.md](../appnest-governance/02-sdk/Backend-Appnest-SDK-Reference.md), [02-sdk/06-Manifest-Rules.md](../appnest-governance/02-sdk/06-Manifest-Rules.md), [03-integration-standards/07-External-API-Standards.md](../appnest-governance/03-integration-standards/07-External-API-Standards.md), [01-architecture/01-Architecture-Principles.md](../appnest-governance/01-architecture/01-Architecture-Principles.md).
+**Input:** Filled PRD; governance docs: [01-architecture/03-Entry-Points-and-Implementation.md](../appnest-governance/01-architecture/03-Entry-Points-and-Implementation.md), [02-sdk/04-AppNest-SDK-Usage-Rules.md](../appnest-governance/02-sdk/04-AppNest-SDK-Usage-Rules.md), [02-sdk/BackendAppnestFunction-Reference.md](../appnest-governance/02-sdk/BackendAppnestFunction-Reference.md), [02-sdk/06-Manifest-Rules.md](../appnest-governance/02-sdk/06-Manifest-Rules.md), [03-integration-standards/07-External-API-Standards.md](../appnest-governance/03-integration-standards/07-External-API-Standards.md), [01-architecture/01-Architecture-Principles.md](../appnest-governance/01-architecture/01-Architecture-Principles.md).
 
 **Actions:**
 
