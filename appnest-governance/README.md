@@ -2,27 +2,28 @@
 
 Frontend and backend app on the **Appnest** framework. All documentation is managed here.
 
-**Start here:** [APPNEST_DEVELOPER_GUIDE.md](APPNEST_DEVELOPER_GUIDE.md) — entry points and links to full docs.
+**Start here:** [Appnest-App-Development-Guide.md](Appnest-App-Development-Guide.md) — app structure, entries, **`manifest.json`** wiring, backend/frontend how-to, engine workflow, and links to full docs.
+
+**Recommended reading order:** [Documentation-Order.md](Documentation-Order.md) — numbered sequence (folders and files are not prefixed with numbers).
 
 ---
 
 ## Appnest Governance
 
-Standards and reference for Appnest apps: architecture, SDK usage, manifest rules, and integration standards. Use for code review, AI-assisted generation, and compliance.
+Standards and reference for Appnest apps: **execution flows**, **appnest-functions**, manifest (**app-configuration**), frontend rules, and **review checklist** (includes external API standards). Use for code review, AI-assisted generation, and compliance.
 
 ## Document index
 
 | Section | Document | Purpose |
 |--------|----------|---------|
-| **Frontend (AI: read first when generating UI)** | [frontend-rules.md](04-frontend/frontend-rules.md) | **Enforced** frontend rules: entry, backend invoke, Twigs only, responsive, SaaS “wow”. Read this before generating any frontend code. |
-| **Architecture** | [01-Architecture-Principles.md](01-architecture/01-Architecture-Principles.md) | Execution model, statelessness, safety |
-| | [02-Flow-Classification-Model.md](01-architecture/02-Flow-Classification-Model.md) | Trigger/operation types, long-running flows |
-| | [03-Entry-Points-and-Implementation.md](01-architecture/03-Entry-Points-and-Implementation.md) | Entry points, backend/frontend how-to, Twigs UI libraries, project structure |
-| **SDK** | [04-AppNest-SDK-Usage-Rules.md](02-sdk/04-AppNest-SDK-Usage-Rules.md) | $http, $db, $schedule, $file, ResultData rules |
-| | [BackendAppnestFunction-Reference.md](02-sdk/BackendAppnestFunction-Reference.md) | Full SDK reference (import, $db, $http, $file, $next, $schedule) |
-| | [FrontendAppnestFunction-Reference.md](04-frontend/FrontendAppnestFunction-Reference.md) | Client bridge: `client.js`, `window.AppnestFunctions` ($check, $appBackend, $productParent) |
-| | [06-Manifest-Rules.md](02-sdk/06-Manifest-Rules.md) | Manifest rules + full schema (code-generation) |
-| | [07-Twigs-UI-Reference.md](04-frontend/07-Twigs-UI-Reference.md) | Twigs-only UI mapping (no raw HTML); use Stack, Box, Button, Select, Alert, Spinner, Table, etc. |
-| | [08-Twigs-UI-Cursor-Rule.md](04-frontend/08-Twigs-UI-Cursor-Rule.md) | Canonical Twigs UI rule for Cursor / AI (install, Twigs-only, responsive, SaaS “wow”; read with frontend-rules.md) |
-| **Integration** | [07-External-API-Standards.md](03-integration-standards/07-External-API-Standards.md) | Idempotency, errors, rate limits, secrets |
-| | [09-Code-Review-and-AI-Generation-Checklist.md](03-integration-standards/09-Code-Review-and-AI-Generation-Checklist.md) | Review and AI-generation checklist |
+| **Orientation** | [Appnest-App-Development-Guide.md](Appnest-App-Development-Guide.md) | Structure, `server.js` / `App.jsx`, manifest wiring, `invoke`, Twigs overview, validate/pack, example tree |
+| **Development engine** | [Appnest-Development-Engine.md](appnest-development-engine/Appnest-Development-Engine.md) | NPM CLI package overview and local dev model |
+| | [Appnest-Development-Engine-Commands.md](appnest-development-engine/Appnest-Development-Engine-Commands.md) | `app init`, `start`, `validate`, `pack`, and related commands |
+| **Execution and flows** | [Appnest-Execution-Flows.md](Appnest-Execution-Flows.md) | Trigger → handler → SDK → `ResultData`, principles, operation types, long-running flows |
+| **appnest-functions** | [Appnest-Functions.md](appnest-functions/Appnest-Functions.md) | Overview: backend/frontend AppnestFunctions; links to detailed references |
+| | [Backend-Appnest-Functions.md](appnest-functions/Backend-Appnest-Functions.md) | Full SDK reference (import, $db, $http, $file, $next, $schedule) |
+| | [Frontend-Appnest-Functions.md](appnest-functions/Frontend-Appnest-Functions.md) | Client bridge: `client.js`, `window.AppnestFunctions` ($check, $appBackend, $productParent) |
+| **app-configuration** | [Manifest-Rules.md](app-configuration/Manifest-Rules.md) | Manifest rules + full schema (code-generation) |
+| **Frontend (read before generating UI)** | [App-Frontend-Rules.md](App-Frontend-Rules.md) | **Enforced** frontend rules: entry, backend invoke, Twigs only, responsive, SaaS “wow”, structure, checklist. Pair with Twigs reference below. |
+| **Twigs (lookup)** | [Twigs-UI-Reference.md](Twigs-UI-Reference.md) | `package.json` Twigs versions and HTML → Twigs mapping table (read after App-Frontend-Rules). |
+| **Integration & pre-ship checklist** | [Code-Review-and-AI-Generation-Checklist.md](Code-Review-and-AI-Generation-Checklist.md) | External API standards + pre-ship / AI review checklist (runtime, SDK, manifest, Twigs) |

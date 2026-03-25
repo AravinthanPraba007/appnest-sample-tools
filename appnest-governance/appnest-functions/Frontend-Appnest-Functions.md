@@ -1,6 +1,6 @@
-# Appnest client (`client.js`) — developer reference
+# FrontendAppnestFunctions (client bridge)
 
-This script runs **inside your marketplace app iframe**. It exposes **`window.AppnestFunctions`**, a small API for talking to the **parent window** (product shell) and the **Sparrow Apps backend**.
+This document describes **`window.AppnestFunctions`**, loaded by **`client.js`** inside your marketplace app iframe. Use it to call the **parent window** (product shell) and the **Sparrow Apps backend**.
 
 ## Prerequisites
 

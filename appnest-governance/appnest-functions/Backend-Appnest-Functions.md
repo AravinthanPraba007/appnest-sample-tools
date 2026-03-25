@@ -2,16 +2,16 @@
 
 This document is the **single source of truth** for the Appnest custom SDK functions. Use it for **code generation**, auto-completion, and integration in your app.
 
-**For AI code generation:** (1) This file is self-contained; all function signatures, parameters, return shapes, and constraints are below. (2) **Import pattern:** The package exports `AppnestFunctions` and `ResultData` only. Always use: `const { AppnestFunctions } = require('@aravinthan_p/appnest-app-sdk-utils'); const { $db, $http, $file, $next, $schedule, getTraceId } = AppnestFunctions;` (destructure only the modules you need). Do not use `const { $db } = require('@aravinthan_p/appnest-app-sdk-utils')` — that is incorrect.
+**For AI code generation:** (1) This file is self-contained; all function signatures, parameters, return shapes, and constraints are below. (2) **Import pattern:** The package exports `AppnestFunctions` and `ResultData` only. Always use: `const { AppnestFunctions } = require('@sparrowengg/appnest-app-sdk-utils'); const { $db, $http, $file, $next, $schedule, getTraceId } = AppnestFunctions;` (destructure only the modules you need). Do not use `const { $db } = require('@sparrowengg/appnest-app-sdk-utils')` — that is incorrect.
 
-**Do not add `@aravinthan_p/appnest-app-sdk-utils` (or `@aravinthan_p/appnest-app-sdk-utils`) to `app-backend/package.json`.** The SDK is provided by the AppNest platform at runtime. Your backend code should `require('@aravinthan_p/appnest-app-sdk-utils')` (or the package name configured by the platform) without listing it as a dependency.
+**Do not add `@sparrowengg/appnest-app-sdk-utils` (or `appnest-app-sdk-utils`) to `app-backend/package.json`.** The SDK is provided by the AppNest platform at runtime. Your backend code should `require('@sparrowengg/appnest-app-sdk-utils')` (or the package name configured by the platform) without listing it as a dependency.
 
 ---
 
 ## Import
 
 ```javascript
-const { AppnestFunctions } = require('@aravinthan_p/appnest-app-sdk-utils');
+const { AppnestFunctions } = require('@sparrowengg/appnest-app-sdk-utils');
 // or from path:
 // const { AppnestFunctions } = require('<path-to-sdk>/appnestFunctions');
 
@@ -154,7 +154,7 @@ Each module has a dedicated MD file with full signatures, parameters, and exampl
 Typical pattern inside a Lambda or handler:
 
 ```javascript
-const { AppnestFunctions } = require('@aravinthan_p/appnest-app-sdk-utils');
+const { AppnestFunctions } = require('@sparrowengg/appnest-app-sdk-utils');
 const { $db, $http, $file, $next, $schedule, getTraceId } = AppnestFunctions;
 
 exports.myHandler = async (event, context) => {
