@@ -10,14 +10,14 @@
 
 ## Reliability and error handling
 
-- **Stateless handlers:** All handlers MUST be stateless. Persist state only in $db or external systems. See `appnest-tools/appnest-governance/01-architecture/01-Architecture-Principles.md`.
+- **Stateless handlers:** All handlers MUST be stateless. Persist state only in $db or external systems. See `appnest-tools/appnest-governance/Appnest-Execution-Flows.md`.
 - **Retries:** {{retry_policy}} (e.g. 429 backoff, idempotent pushes).
 - **Partial failure:** {{partial_failure_handling}} (e.g. batch sync: record failures, don’t re-push duplicates).
-- **ResultData:** Use `ResultData` for explicit status/body (e.g. 4xx/5xx). Do not throw raw errors without a structured return. See `appnest-tools/appnest-governance/02-sdk/04-AppNest-SDK-Usage-Rules.md`.
+- **ResultData:** Use `ResultData` for explicit status/body (e.g. 4xx/5xx). Do not throw raw errors without a structured return. See `appnest-tools/appnest-governance/appnest-functions/Appnest-Functions.md`.
 
 ## External API standards
 
-(Ref: `appnest-tools/appnest-governance/03-integration-standards/07-External-API-Standards.md`)
+(Ref: `appnest-tools/appnest-governance/Code-Review-and-AI-Generation-Checklist.md` — External API section)
 
 - **Idempotency:** External push operations must prevent duplicates. {{idempotency_approach}}
 - **Error handling:** Non-200 responses must be handled explicitly. {{error_handling_approach}}

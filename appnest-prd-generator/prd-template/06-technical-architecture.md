@@ -66,4 +66,4 @@ app-frontend/
 
 ## Security and secrets
 
-- No hardcoded secrets. Use **installation_params** (e.g. product_api_key, secure text) or **oauth_config** only. See `appnest-tools/appnest-governance/03-integration-standards/07-External-API-Standards.md`.
+- No hardcoded secrets. Use **installation_params** (e.g. product_api_key, secure text) or **oauth_config** only. See `appnest-tools/appnest-governance/Code-Review-and-AI-Generation-Checklist.md` (External API — secrets).

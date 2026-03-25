@@ -1,5 +1,7 @@
 # Twigs UI reference (for code generation)
 
+**Companion to [App-Frontend-Rules.md](App-Frontend-Rules.md)** — read that file first for mandatory rules (React entry, backend `invoke`, Twigs-only policy, responsive layout, SaaS look-and-feel, structure, and checklist). **This file** is the lookup for **Twigs `package.json` versions** and the **HTML → Twigs mapping table**.
+
 Use **`@sparrowengg/twigs-react`** and **`@sparrowengg/twigs-react-icons`** for all Appnest app UI. Use these components **instead of** raw HTML so the app has a consistent, SaaS-style look.
 
 **Rule:** For every user-facing control or block, use the Twigs component below—not `<button>`, `<input>`, `<select>`, `<table>`, or custom-styled divs.
@@ -49,15 +51,9 @@ When adding Twigs to **`app-frontend/package.json`**, use **`"*"`** as the versi
 
 ---
 
-## Responsive and SaaS product
+## Responsive, SaaS polish, and consistency
 
-- **Responsive:** Use **responsive** Twigs components and layout so the app works on **desktop, tablet, and mobile**. Prefer Stack/Box with responsive props (e.g. direction or breakpoints) where Twigs supports them; avoid fixed pixel widths that break on small screens. The app should adapt to the viewport and remain usable at all sizes.
-- **SaaS "wow" UI:** The app is **embedded in a SaaS product** and will be judged against that context. Deliver a **polished, professional** look and feel: clear visual hierarchy, readable typography, coherent spacing, and interactions that feel native to the host. Aim for a "wow" experience—consistent, modern, and high-quality—so the app does not feel like a disconnected or dated widget.
+Requirements and examples are in **[App-Frontend-Rules.md](App-Frontend-Rules.md)** (sections 3–5, 9, and the quick reference table). This reference does not repeat them.
 
----
-
-## Consistency
-
-- **All screens** must use only Twigs (and twigs-react-icons). No mix of Twigs on one screen and raw HTML on another.
-- **Do not** rely on custom classes like `.btn`, `.alert`, `.run-list` in App.css when Twigs provides equivalent components. Use Twigs everywhere so the app looks like a single design system.
-- For the exact component names and props, refer to the **Twigs** package documentation; this reference is for mapping "what to use instead of raw HTML" when generating code.
+- **All screens:** Twigs only—no mix of raw HTML controls on some screens and Twigs on others.
+- **Exact component names and props:** Use the [Twigs documentation](https://twigs.surveysparrow.com/); verify exports before assuming names like `Alert` or `Spinner` exist.

@@ -2,7 +2,9 @@
 
 **Goal:** Keep the frontend codebase **clean, scalable, maintainable, and consistent** across the team. The rules below apply to all Appnest app frontends.
 
-**For AI (Cursor, etc.):** When generating or editing **any frontend code** (`app-frontend/`, `*.jsx`, `*.tsx`, or UI under this app), **read and apply this file first**. These rules are mandatory; do not generate frontend code that violates them. For **visual and layout direction** (Stripe / Linear / Notion–style SaaS UI), follow **§5** after **§3–4** (Twigs + responsive baseline).
+**For AI (Cursor, etc.):** When generating or editing **any frontend code** (`app-frontend/`, `*.jsx`, `*.tsx`, or UI under this app), **read and apply this file first**. Then use **[Twigs-UI-Reference.md](Twigs-UI-Reference.md)** for **`package.json` Twigs versions** and the **HTML → Twigs mapping table** while coding. These rules are mandatory; do not generate frontend code that violates them. For **visual and layout direction** (Stripe / Linear / Notion–style SaaS UI), follow **§5** after **§3–4** (Twigs + responsive baseline).
+
+**Where frontend docs live:** Canonical guidance is **`App-Frontend-Rules.md`** (this file) + **`Twigs-UI-Reference.md`** in **`appnest-governance/`**. There is no separate Twigs-only Cursor rule file—point tools and contributors at these two files only.
 
 ---
 
@@ -38,7 +40,7 @@ if (response.statusCode >= 200 && response.statusCode < 300) {
 }
 ```
 
-For the client bridge (`client.js`, `window.AppnestFunctions`), see [FrontendAppnestFunction-Reference.md](FrontendAppnestFunction-Reference.md).
+For the client bridge (`client.js`, `window.AppnestFunctions`), see [Frontend-Appnest-Functions.md](appnest-functions/Frontend-Appnest-Functions.md).
 
 ---
 
@@ -51,7 +53,7 @@ For the client bridge (`client.js`, `window.AppnestFunctions`), see [FrontendApp
 | **Layout** | Use Twigs **Stack** and **Box** for layout and spacing (`gap`, `padding`). Prefer Twigs design tokens over hardcoded hex or one-off CSS. |
 | **Component names** | **Verify exact export names** at [https://twigs.surveysparrow.com/](https://twigs.surveysparrow.com/) (component docs). Do not assume names like `Alert` or `Spinner` exist—use what the package actually exports. |
 
-Mapping (what to use instead of raw HTML): [07-Twigs-UI-Reference.md](07-Twigs-UI-Reference.md).
+Mapping (what to use instead of raw HTML): [Twigs-UI-Reference.md](Twigs-UI-Reference.md).
 
 ---
 
@@ -186,7 +188,7 @@ Use clear, descriptive names everywhere.
 
 ## 9. Styling guidelines
 
-- Use **Twigs** for UI and **Twigs design tokens** (spacing, colors, typography) for consistency. See [07-Twigs-UI-Reference.md](07-Twigs-UI-Reference.md).
+- Use **Twigs** for UI and **Twigs design tokens** (spacing, colors, typography) for consistency. See [Twigs-UI-Reference.md](Twigs-UI-Reference.md).
 - Avoid **inline styles** unless necessary (e.g. dynamic values). Prefer Twigs props and tokens.
 - Keep styles **maintainable and reusable**; do not duplicate token values or create one-off CSS when Twigs covers the need.
 
@@ -247,7 +249,7 @@ Use clear, descriptive names everywhere.
 
 ## 17. Before considering frontend complete
 
-- Run the **Frontend UI (Twigs)** section of [09-Code-Review-and-AI-Generation-Checklist.md](../03-integration-standards/09-Code-Review-and-AI-Generation-Checklist.md).
+- Run the **Frontend UI (Twigs)** section of [Code-Review-and-AI-Generation-Checklist.md](Code-Review-and-AI-Generation-Checklist.md).
 - Confirm: (a) Twigs packages in package.json with version `"*"`, (b) no raw HTML for controls, (c) layout uses Stack/Box, (d) backend calls use `window.appnestClientFunctions.appBackend.invoke({ apiFunctionName, payload })` and response `{ statusCode, body }`, (e) UI matches **§5 SaaS style** (hierarchy, spacing, states, responsive shell) and is polished for a SaaS context, (f) structure, naming, API/error handling, and accessibility (§6–§16) are followed where applicable.
 
 ---

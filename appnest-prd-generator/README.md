@@ -91,6 +91,6 @@ The generator and templates assume:
 - **Backend:** `app-backend/server.js` is the single entry; only exported functions are invokable. All I/O uses AppNest SDK ($db, $http, $file, $next, $schedule); no axios/fetch; no adding SDK package to `package.json`.
 - **Frontend:** `app-frontend/src/App.jsx` is the root; backend is called via `window.appnestClientFunctions.appBackend.invoke({ apiFunctionName, payload })`. React/react-dom are platform-provided; UI built with `@sparrowengg/twigs-react` and `@sparrowengg/twigs-react-icons`.
 - **Manifest:** Every invokable backend function is listed in `backend_api_functions`; every event handler in `event_listener_functions`; OAuth and installation params declared as per manifest schema.
-- **Governance:** Details are in `appnest-tools/appnest-governance/` (entry points, SDK reference, SDK usage rules, manifest rules, external API standards, architecture principles).
+- **Governance:** Details are in `appnest-tools/appnest-governance/` (app development guide, execution flows, SDK reference, manifest rules, code review checklist including external API standards).
 
 Use the PRD generator together with the governance docs so that every generated PRD is **ready to build** on AppNest.
