@@ -2,7 +2,7 @@
 
 **Before considering a change complete, verify every item below.** Use this document for code review and when validating AI-generated code.
 
-It also defines **external API standards** for Appnest apps (outbound HTTP via **`$http`**). Read **External API** before building integrations; use the **full checklist** sections before merge or release.
+It also defines **external API standards** for Appnest apps (outbound HTTP via **`$fetch`**). Read **External API** before building integrations; use the **full checklist** sections before merge or release.
 
 ---
 
@@ -39,7 +39,7 @@ Normative standards for calling external services from backend handlers.
 
 ## SDK Compliance
 
-- [ ] No direct HTTP libraries (use $http)  
+- [ ] No direct HTTP libraries (use `$fetch.request`)  
 - [ ] Handlers exported from **app-backend/server.js** only  
 - [ ] ResultData or structured return used  
 

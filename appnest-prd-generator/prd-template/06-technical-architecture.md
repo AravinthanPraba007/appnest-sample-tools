@@ -2,14 +2,14 @@
 
 ## AppNest alignment (mandatory)
 
-This app follows the AppNest framework. Reference: `appnest-tools/appnest-governance/` (entry points, SDK, manifest, UI libraries).
+This app follows the AppNest framework. Reference: `appnest-tools/appnest-governance/` (entry points, **Appnest Functions**, manifest, UI libraries).
 
 ### Backend
 
 - **Single entry:** `app-backend/server.js`. Only **exported** functions are invokable (as API or event handlers).
 - **No Express/routes:** The framework provides routing. Implement handlers in separate files (e.g. `controller/*.js`, `eventHandler.js`) and re-export from `server.js`.
-- **All I/O via AppNest SDK:** Use `$db` for persistence, `$http` for outbound HTTP, `$file` for files, `$next` for invoking other functions, `$schedule` for scheduled jobs. Do **not** use axios/fetch or raw DB clients.
-- **Do not add** `@sparrowengg/appnest-app-sdk-utils` to `app-backend/package.json`; the SDK is provided by the platform at runtime.
+- **All I/O via Appnest Functions (backend):** Use `$db` for persistence, `$fetch.request` for outbound HTTP, `$file` for files, `$next` for invoking other functions, `$schedule` for scheduled jobs; use `getTraceId()` for request correlation/logging where needed. Do **not** use axios/fetch or raw DB clients. See **`appnest-functions/Backend-Appnest-Functions.md`** in governance for the full API.
+- **Do not add** `@sparrowengg/appnest-app-sdk-utils` to `app-backend/package.json`; **Appnest Functions** are provided by the platform at runtime (import `AppnestFunctions` from that package in code only—do not list it as a dependency).
 - **Handlers** receive `{ payload }` and return a plain object or `ResultData({ body, statusCode })` for HTTP-style responses.
 
 ### Frontend
@@ -42,7 +42,7 @@ app-backend/
 ├── controller/            # (optional) API/domain logic
 ├── helpers/               # (optional) shared helpers
 ├── constants/             # (optional) config and constants
-└── package.json           # Only app-specific deps (e.g. mssql); NOT the AppNest SDK
+└── package.json           # Only app-specific deps (e.g. mssql); NOT `@sparrowengg/appnest-app-sdk-utils` (Appnest Functions)
 ```
 
 ## Frontend layout

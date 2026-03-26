@@ -24,4 +24,4 @@
 
 ## AppNest context
 
-- This app runs on the **AppNest** framework. Backend entry: `app-backend/server.js` (exported functions only). Frontend entry: `app-frontend/src/App.jsx`. All backend I/O uses the AppNest SDK ($db, $http, $file, $next, $schedule). See `appnest-tools/appnest-governance/` for full reference.
+- This app runs on the **AppNest** framework. Backend entry: `app-backend/server.js` (exported functions only). Frontend entry: `app-frontend/src/App.jsx`. All backend I/O uses **Appnest Functions** ($db, $fetch, $file, $next, $schedule; `getTraceId` for logging). See `appnest-tools/appnest-governance/appnest-functions/` and related governance docs for full reference.

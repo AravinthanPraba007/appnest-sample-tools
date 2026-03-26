@@ -61,12 +61,12 @@ Step-by-step execution to turn an app idea and question answers into a complete,
 3. In `06-technical-architecture.md`, ensure:
    - Backend entry is **`app-backend/server.js`** and only exported functions are invokable.
    - Frontend entry is **`app-frontend/src/App.jsx`**; backend is called via **`window.appnestClientFunctions.appBackend.invoke({ apiFunctionName, payload })`**.
-   - All I/O uses AppNest SDK ($db, $http, $file, $next, $schedule); no axios/fetch; no adding SDK to backend package.json; no react/react-dom in frontend package.json.
+   - All I/O uses **Appnest Functions** ($db, $fetch, $file, $next, $schedule; `getTraceId` for logging/correlation); no axios/fetch; no adding `@sparrowengg/appnest-app-sdk-utils` to backend package.json; no react/react-dom in frontend package.json.
    - UI components use **`@sparrowengg/twigs-react`** and **`@sparrowengg/twigs-react-icons`**; in package.json use version **`"*"`** (latest), not a fixed version that may not exist (e.g. ^2.0.0). See appnest-governance/App-Frontend-Rules.md and appnest-governance/Twigs-UI-Reference.md.
 4. In `08-api-contracts.md`, ensure every backend function and event handler is named and matches the manifest schema (backend_api_functions, event_listener_functions).
 5. In `07-data-model.md`, ensure every persistent entity has a storage strategy and key pattern using $db types (string, number, list, map, boolean).
 
-**Exit condition:** Every template file is filled; no placeholder remains; technical sections explicitly reference AppNest entry points and SDK usage. If a placeholder cannot be filled from answers → list it and output **CLARIFICATION REQUIRED** before Step 3.
+**Exit condition:** Every template file is filled; no placeholder remains; technical sections explicitly reference AppNest entry points and **Appnest Functions** usage. If a placeholder cannot be filled from answers → list it and output **CLARIFICATION REQUIRED** before Step 3.
 
 ---
 
@@ -91,7 +91,7 @@ Step-by-step execution to turn an app idea and question answers into a complete,
 **Actions:**
 
 1. **Entry points:** Confirm backend has only one entry (server.js exports); frontend has only one root (App.jsx); no custom routes/controllers.
-2. **SDK usage:** Confirm all external HTTP use $http; all persistent state use $db; long-running/chained work use $schedule or $next; no axios/fetch; handlers return ResultData or plain object; no SDK in backend package.json. If the app uses $file, $schedule, or $next, confirm the corresponding PRD section (07 file storage, 08 scheduled jobs, 08 function chaining) is filled.
+2. **Appnest Functions usage:** Confirm all external HTTP use `$fetch.request`; all persistent state use $db; long-running/chained work use $schedule or $next; no axios/fetch; handlers return ResultData or plain object; no `@sparrowengg/appnest-app-sdk-utils` in backend package.json. If the app uses $file, $schedule, or $next, confirm the corresponding PRD section (07 file storage, 08 scheduled jobs, 08 function chaining) is filled.
 3. **Manifest:** Confirm every invokable backend function is in backend_api_functions; every event handler in event_listener_functions; OAuth and installation_params match schema; whitelisted_domains cover all external hosts.
 4. **Frontend:** Confirm no react/react-dom in frontend package.json; UI uses Twigs (twigs-react, twigs-react-icons) where applicable. If the app has a full-page UI, confirm 11-ui-screens.md is filled and each screen's actions reference functionNames from backend_api_functions.
 5. **External APIs:** Confirm idempotency and retries are specified where the app pushes data; secrets only via installation_params or oauth_config; 429/retry and error handling mentioned.

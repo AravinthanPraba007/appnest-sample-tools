@@ -47,10 +47,10 @@ Use this checklist after filling the PRD template and before marking the app **R
 |---|--------|----------|-------------------|--------|
 | 4.1 | **Backend entry** is only **app-backend/server.js**; all invokable logic is exported from it (no custom routes/controllers). | Yes | ☐ Pass ☐ Fail ☐ Unclear | 06-technical-architecture; ref. `appnest-governance/Appnest-App-Development-Guide.md`. |
 | 4.2 | **Frontend entry** is **app-frontend/src/App.jsx**; backend is called only via **window.appnestClientFunctions.appBackend.invoke({ apiFunctionName, payload })**. | Yes | ☐ Pass ☐ Fail ☐ Unclear ☐ N/A | 06-technical-architecture; ref. `appnest-governance/Appnest-App-Development-Guide.md`. |
-| 4.3 | All external HTTP uses **$http** (no axios/fetch). All persistent state uses **$db**. Long-running/chained work uses **$schedule** or **$next**. | Yes | ☐ Pass ☐ Fail ☐ Unclear | 06 + 09; ref. SDK usage rules. |
+| 4.3 | All external HTTP uses **`$fetch.request`** (no axios/fetch). All persistent state uses **$db**. Long-running/chained work uses **$schedule** or **$next**. | Yes | ☐ Pass ☐ Fail ☐ Unclear | 06 + 09; ref. **Appnest Functions** (`appnest-governance/appnest-functions/`). |
 | 4.4 | **app-backend/package.json** does NOT list `@sparrowengg/appnest-app-sdk-utils` (or appnest-app-sdk-utils). | Yes | ☐ Pass ☐ Fail ☐ Unclear | Platform-provided. |
 | 4.5 | **app-frontend/package.json** does NOT list `react` or `react-dom`. UI uses **@sparrowengg/twigs-react** and **@sparrowengg/twigs-react-icons** where applicable; use version **`"*"`** (latest), not a fixed version that may not exist (e.g. ^2.0.0). | Yes | ☐ Pass ☐ Fail ☐ Unclear ☐ N/A | 06-technical-architecture; ref. `appnest-governance/App-Frontend-Rules.md`, `appnest-governance/Twigs-UI-Reference.md`. |
-| 4.6 | Handlers return **ResultData** or plain object; no throwing raw errors without structured return. | Yes | ☐ Pass ☐ Fail ☐ Unclear | 09-non-functional; ref. SDK usage rules. |
+| 4.6 | Handlers return **ResultData** or plain object; no throwing raw errors without structured return. | Yes | ☐ Pass ☐ Fail ☐ Unclear | 09-non-functional; ref. **Appnest Functions** / backend reference. |
 | 4.7 | **Manifest** matches code: every key in backend_api_functions and event_listener_functions exists as an export in server.js. | Yes | ☐ Pass ☐ Fail ☐ Unclear | 08-api-contracts + manifest rules. |
 | 4.8 | If the app has a **full-page UI**: **11-ui-screens.md** is filled with screens overview and, for each screen, purpose, how user reaches it, layout/elements, user actions with **functionName** (from backend_api_functions), data shown, and empty/loading/error states. | If full-page UI | ☐ Pass ☐ Fail ☐ Unclear ☐ N/A | 11-ui-screens. |
 
@@ -83,4 +83,4 @@ Use this checklist after filling the PRD template and before marking the app **R
 
 - **If any Required check is Fail or Unclear:**  
   **CLARIFICATION REQUIRED**  
-  List the checklist item(s) that failed or are unclear (e.g. “2.2 Backend API functions not all in manifest”, “4.3 $http/$db usage not documented”). Resolve these and re-run the checklist before building.
+  List the checklist item(s) that failed or are unclear (e.g. “2.2 Backend API functions not all in manifest”, “4.3 $fetch/$db usage not documented”). Resolve these and re-run the checklist before building.

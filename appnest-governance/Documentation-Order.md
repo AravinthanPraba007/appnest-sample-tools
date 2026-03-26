@@ -13,7 +13,7 @@ Folders and files under `appnest-governance/` are **not** numbered. Use this lis
 ## 3. appnest-functions (SDK)
 
 3. [appnest-functions/Appnest-Functions.md](appnest-functions/Appnest-Functions.md) — backend vs frontend overview.  
-4. [appnest-functions/Backend-Appnest-Functions.md](appnest-functions/Backend-Appnest-Functions.md) — `$db`, `$http`, `$file`, `$next`, `$schedule`, `ResultData`.  
+4. [appnest-functions/Backend-Appnest-Functions.md](appnest-functions/Backend-Appnest-Functions.md) — `$db`, `$fetch`, `$file`, `$next`, `$schedule`, `getTraceId`, `ResultData`.  
 5. [appnest-functions/Frontend-Appnest-Functions.md](appnest-functions/Frontend-Appnest-Functions.md) — `client.js`, `window.AppnestFunctions`.
 
 ## 4. app-configuration
@@ -27,7 +27,7 @@ Folders and files under `appnest-governance/` are **not** numbered. Use this lis
 
 ## 6. Integration & pre-ship checklist
 
-9. [Code-Review-and-AI-Generation-Checklist.md](Code-Review-and-AI-Generation-Checklist.md) — **external API standards** (idempotency, errors, rate limits, retries, secrets) and **full review checklist** (runtime, SDK, manifest, entries, Twigs, AI). Read the External API section before outbound **`$http`** work; run the whole checklist before merge.
+9. [Code-Review-and-AI-Generation-Checklist.md](Code-Review-and-AI-Generation-Checklist.md) — **external API standards** (idempotency, errors, rate limits, retries, secrets) and **full review checklist** (runtime, SDK, manifest, entries, Twigs, AI). Read the External API section before outbound **`$fetch`** work; run the whole checklist before merge.
 
 ---
 

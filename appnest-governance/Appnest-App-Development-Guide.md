@@ -78,7 +78,7 @@ Full schema: **[Manifest-Rules.md](app-configuration/Manifest-Rules.md)**.
 ### Example backend layout
 
 - **`app-backend/server.js`** — Re-exports all handlers and API functions. No Express or controller code here—only exports.  
-- **`app-backend/sampleHandler.js`** — API-style functions that receive `{ payload }`, use AppnestFunctions (e.g. `$db`, `$http`) and `ResultData`, and return plain objects or `ResultData`.  
+- **`app-backend/sampleHandler.js`** — API-style functions that receive `{ payload }`, use AppnestFunctions (e.g. `$db`, `$fetch`) and `ResultData`, and return plain objects or `ResultData`.  
 - **`app-backend/eventHandler.js`** — Product event handlers that receive `{ payload }`, use AppnestFunctions for DB/API, and return plain objects or `ResultData`.  
 
 ### Returning HTTP-style responses

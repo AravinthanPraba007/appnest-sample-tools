@@ -12,7 +12,7 @@ This document summarizes how well the PRD generator covers Appnest apps and what
 | **Event listeners** | 08-api-contracts lists each event and handler; manifest snippet for `event_listener_functions`. |
 | **Data / $db** | Question framework D1–D4 (entities, fields, where stored, $db types); 07-data-model has entities table with key pattern and $db type. |
 | **Entry points** | 06-technical-architecture and validation checklist enforce server.js + App.jsx, invoke({ apiFunctionName, payload }). |
-| **SDK in principle** | Workflow and 06 state that all I/O uses $db, $http, $file, $next, $schedule; no axios/fetch; no SDK in package.json. |
+| **Appnest Functions (principle)** | Workflow and 06 state that all I/O uses $db, $fetch, $file, $next, $schedule via **Appnest Functions**; no axios/fetch; do not add `@sparrowengg/appnest-app-sdk-utils` to backend `package.json`. |
 | **Manifest** | installation_params, oauth_config, whitelisted_domains covered in questions and 08-api-contracts. |
 | **External APIs** | Integrations (I1–I4), idempotency/retries (6.1–6.3 in validation), 09-non-functional. |
 
@@ -38,11 +38,11 @@ This document summarizes how well the PRD generator covers Appnest apps and what
 - **Risk:** Chained or orchestrated flows were not explicitly specified in the PRD.
 - **Change:** Added a question (chained/orchestrated flows, which function calls which) and a **Function chaining ($next)** section (caller, target function, payload/delay) in 08-api-contracts or 06; validation item when $next is used.
 
-### 4. **Per-handler SDK usage** — was high-level only
+### 4. **Per-handler Appnest Functions usage** — was high-level only
 
-- **Gap:** Templates don’t require “Handler X uses $db.map.get; Handler Y uses $http.request and $next.run.”
-- **Risk:** Implementers might miss that a given handler must use $file or $schedule; no single place to verify SDK usage per function.
-- **Change:** Optional “SDK usage” column or a short **Backend SDK usage** subsection in 06 or 08 listing per function: $db / $http / $file / $next / $schedule (and which keys/operations where relevant). Validation can require “If app uses $file/$schedule/$next, corresponding section is filled.”
+- **Gap:** Templates don’t require “Handler X uses $db.map.get; Handler Y uses $fetch.request and $next.run.”
+- **Risk:** Implementers might miss that a given handler must use $file or $schedule; no single place to verify **Appnest Functions** usage per handler.
+- **Change:** Optional “Appnest Functions usage” column or a short **Backend Appnest Functions usage** subsection in 06 or 08 listing per function: $db / $fetch / $file / $next / $schedule (and which keys/operations where relevant). Validation can require “If app uses $file/$schedule/$next, corresponding section is filled.”
 
 ### 5. **Workflow placeholders**
 
@@ -58,9 +58,9 @@ This document summarizes how well the PRD generator covers Appnest apps and what
 
 ## Summary: will this create a proper PRD for an Appnest app?
 
-- **Before changes:** For “standard” apps (API + events + $db + $http), the generator already produced a solid PRD. For apps using **$file**, **$schedule**, or **$next**, the PRD did not systematically capture how those SDK functions are used, so implementation could be incomplete or inconsistent.
+- **Before changes:** For “standard” apps (API + events + $db + $fetch), the generator already produced a solid PRD. For apps using **$file**, **$schedule**, or **$next**, the PRD did not systematically capture how those **Appnest Functions** are used, so implementation could be incomplete or inconsistent.
 - **After changes:** The generator is intended to cover:
-  - **Backend functionalities:** All invokable functions (API + events), their payloads/returns, and optionally per-handler SDK usage.
+  - **Backend functionalities:** All invokable functions (API + events), their payloads/returns, and optionally per-handler **Appnest Functions** usage.
   - **Data and storage:** What data is stored, where ($db key patterns, types), plus a dedicated **File storage ($file)** section when the app uses files.
   - **$db:** Entities, key patterns, $db types (already in place).
   - **$file:** When used: paths, visibility, operations (upload/download/list/delete), and which handlers use them.
@@ -68,4 +68,4 @@ This document summarizes how well the PRD generator covers Appnest apps and what
   - **$next:** When used: which function calls which, payload shape, and delay.
   - **Manifest:** backend_api_functions, event_listener_functions, installation_params, oauth_config, whitelisted_domains (already in place).
 
-Running the question framework in order, filling all template sections (including the new ones), and passing the validation checklist (including the new items) should produce a PRD that is **ready to build** an Appnest app with full coverage of backend behaviour, data storage, and SDK usage ($db, $http, $file, $schedule, $next).
+Running the question framework in order, filling all template sections (including the new ones), and passing the validation checklist (including the new items) should produce a PRD that is **ready to build** an Appnest app with full coverage of backend behaviour, data storage, and **Appnest Functions** usage ($db, $fetch, $file, $schedule, $next; `getTraceId` for correlation).

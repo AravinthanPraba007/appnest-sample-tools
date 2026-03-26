@@ -31,5 +31,5 @@
 
 ## Long-running or chained work
 
-- Use **$schedule** or **$next** for long-running or multi-step flows. No direct recursion. See SDK usage rules.  
+- Use **$schedule** or **$next** for long-running or multi-step flows. No direct recursion. See **Appnest Functions** / backend usage rules in governance.  
   {{long_running_approach}}

@@ -53,7 +53,7 @@ Structured follow-up questions to go from an app idea to a complete, buildable P
 | D1 | What **entities** does the app manage? (e.g. mapping, sync job, config) | Core entities for 07-data-model. |
 | D2 | For each entity: what **fields** are required? What is the **natural key** (e.g. surveyId + mappingId)? | Fields + keys. |
 | D3 | Where is data **stored**? (Only AppNest $db, or also external system?) | $db usage + external systems. |
-| D4 | What **$db types** will you use per key pattern? (e.g. string for JSON blob, map for key-value, list for arrays) | Align with SDK: string, number, list, map, boolean. |
+| D4 | What **$db types** will you use per key pattern? (e.g. string for JSON blob, map for key-value, list for arrays) | Align with **Appnest Functions** / `$db`: string, number, list, map, boolean. |
 | D5 | Is there any **sensitive data**? How is it handled? (installation_params, oauth, no hardcoding) | Secrets in manifest only. |
 | D6 | Does the app **upload, download, list, or delete files**? If yes: what **paths** or path patterns? **Visibility** (PUBLIC vs PRIVATE)? Which handlers use $file (getUploadUrl, getDownloadUrl, delete, list, exists)? | File storage ($file); 07-data-model file section. |
 | D7 | Does the app need **scheduled jobs** (cron, one-time, recurring)? For each: **name**, **type** (ONE_TIME / CRON / RECURRING), **target function** (export name from server.js), **schedule** (e.g. cron expression, runAt, or repeat)? | Scheduled jobs ($schedule); 08 or 06. |
