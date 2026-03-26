@@ -2,12 +2,12 @@
 
 All apps must declare execution capabilities correctly in `manifest.json`. The manifest must reflect the actual handlers exported from `app-backend/server.js`. Mismatch between code and manifest is prohibited.
 
-**Structure:** Top-level keys are `platform_version`, `product_parent`, and **`product_config`**. All app-specific config (frontend, backend API, events, installation params, OAuth, whitelisted domains) lives under **`product_config.<product>`** where `<product>` is the parent product identifier (e.g. `surveysparrow`).
+**Structure:** Top-level keys are `platform_version`, `product_parent`, and **`product_config`**. All app-specific config (frontend, backend API, events, installation params, OAuth, whitelisted domains) lives under **`product_config.<product>`** where `<product>` is the product parent identifier (e.g. `surveysparrow`).
 
 **Cross-check (platform manifest ~2.0):** The following JSON shape is valid and matches this document—only the **values** (domain patterns, function names, param keys, OAuth placeholders) differ per app:
 
 - Top-level: `platform_version`, `product_parent`, `product_config` only.
-- Under `product_config.<product>` (key must match `product_parent`): `frontend_locations`, `whitelisted_domains`, `event_listener_functions`, `backend_api_functions`, `installation_parameters`, `oauth_config` — **no other top-level copies** of these keys.
+- Under `product_config.<product>` (key must match `product_parent`): `frontend_locations`, `whitelisted_domains`, `event_listener_functions`, `backend_api_functions`, `installation_parameters`, `app_oauth_config` — **no other top-level copies** of these keys.
 
 ---
 
@@ -16,9 +16,10 @@ All apps must declare execution capabilities correctly in `manifest.json`. The m
 Use this file as the **single source of truth** when generating or editing `manifest.json`:
 
 - **MUST** use exactly three top-level keys: `platform_version`, `product_parent`, `product_config`. All app config **MUST** be nested under `product_config.<product>` (e.g. `product_config.surveysparrow`); the product key **MUST** match `product_parent`.
-- **MUST** use the key **`installation_parameters`** (iparams; not `installation_params`) for installation-time params. Each param object has `display_name`, `description`, `type` (e.g. `api_key`, `text`), `required`; optional: `data-bind`, `secure`, `default_value`.
+- **MUST** use the key **`installation_parameters`** for installation-time params. Each param object has `display_name`, `description`, `type` (see **installation parameter types** below), `required`; optional: `data-bind`, `secure`, `default_value`.
 - **MUST** ensure every key in `backend_api_functions` and every `handler` in `event_listener_functions` is the **exact name** of a function **exported** from `app-backend/server.js`. Do not add manifest entries for functions that are not exported.
-- **MUST NOT** put `frontend_locations`, `backend_api_functions`, `event_listener_functions`, `installation_parameters`, `oauth_config`, or `whitelisted_domains` at the top level; they belong only under `product_config.<product>`.
+- **MUST** declare **`onScheduledEvent`** under **`event_listener_functions`** when the app uses **scheduled triggers**: the platform fires this event on **each** schedule run, and the **`handler`** you set (typically the same exported function name, e.g. `onScheduledEvent`) is invoked like other event listeners.
+- **MUST NOT** put `frontend_locations`, `backend_api_functions`, `event_listener_functions`, `installation_parameters`, `app_oauth_config`, or `whitelisted_domains` at the top level; they belong only under `product_config.<product>`.
 - When in doubt, follow the **Full example (structure)** and **Quick reference** below; then validate against the **Rules** section.
 
 ---
@@ -31,7 +32,7 @@ Event handlers must be declared in **`product_config.<product>.event_listener_fu
 
 ### 2. Scheduled Functions
 
-Scheduled handlers must be declared explicitly (per platform docs).
+For **schedule triggers**, register the platform event **`onScheduledEvent`** in **`product_config.<product>.event_listener_functions`**. On **each** schedule trigger, the platform invokes the function named by that entry’s **`handler`** (must be exported from **`app-backend/server.js`**). Configure the schedule itself per platform docs; the manifest only wires the handler for `onScheduledEvent`.
 
 ### 3. Backend API Functions
 
@@ -39,7 +40,7 @@ API-invokable functions must be declared in **`product_config.<product>.backend_
 
 ### 4. OAuth
 
-Apps using OAuth must declare **`product_config.<product>.oauth_config`** with provider name(s) and required fields (`client_id`, `client_secret`, `authorize_url`, `token_url`, `options` as needed).
+Apps using OAuth must declare **`product_config.<product>.app_oauth_config`** with provider name(s) and required fields (`client_id`, `client_secret`, `authorize_url`, `token_url`, `options` as needed).
 
 ### 5. Consistency
 
@@ -54,8 +55,8 @@ The manifest must reflect the actual handlers exported from `app-backend/server.
 | Key | Type | Description |
 |-----|------|-------------|
 | `platform_version` | string | Platform version (e.g. `"2.0"`). |
-| `product_parent` | string | Parent product identifier (e.g. `"surveysparrow"`). |
-| `product_config` | object | Product-specific config. Key(s) = product identifier(s) (e.g. `surveysparrow`). Value = object with `frontend_locations`, `whitelisted_domains`, `event_listener_functions`, `backend_api_functions`, `installation_parameters`, `oauth_config`. See below. |
+| `product_parent` | string | Product parent identifier (e.g. `"surveysparrow"`). |
+| `product_config` | object | Product-specific config. Key(s) = product identifier(s) (e.g. `surveysparrow`). Value = object with `frontend_locations`, `whitelisted_domains`, `event_listener_functions`, `backend_api_functions`, `installation_parameters`, `app_oauth_config`. See below. |
 
 ### product_config.<product> (e.g. product_config.surveysparrow)
 
@@ -67,8 +68,8 @@ All app-specific manifest content lives under one product key (matching `product
 | `whitelisted_domains` | string[] | Allowed domain patterns (regex strings). |
 | `event_listener_functions` | object | Platform events → handler function names. See below. |
 | `backend_api_functions` | object | Backend API function names → options (e.g. `timeout`). See below. |
-| `installation_parameters` (iparams) | object | Params collected at install (API keys, text, etc.). See below. |
-| `oauth_config` | object | OAuth provider configs. See below. |
+| `installation_parameters` | object | Params collected at install. Each value’s `type` must be one of the allowed installation parameter types (listed under **installation_parameters** below). |
+| `app_oauth_config` | object | OAuth provider configs. See below. |
 
 ### Full example (structure)
 
@@ -97,6 +98,9 @@ All app-specific manifest content lives under one product key (matching `product
         },
         "onContactCreate": {
           "handler": "onSubmissionComplete"
+        },
+        "onScheduledEvent": {
+          "handler": "onScheduledEvent"
         }
       },
       "backend_api_functions": {
@@ -120,7 +124,7 @@ All app-specific manifest content lives under one product key (matching `product
           "default_value": "https://api.surveysparrow.com"
         }
       },
-      "oauth_config": {
+      "app_oauth_config": {
         "googleCalendar": {
           "client_id": "...",
           "client_secret": "...",
@@ -172,11 +176,14 @@ Nested under **`product_config.<product>.event_listener_functions`**.
   },
   "onContactCreate": {
     "handler": "onSubmissionComplete"
+  },
+  "onScheduledEvent": {
+    "handler": "onScheduledEvent"
   }
 }
 ```
 
-- **Keys:** Platform event names (e.g. `onSubmissionComplete`, `onContactCreate`).
+- **Keys:** Platform event names (e.g. `onSubmissionComplete`, `onContactCreate`, **`onScheduledEvent`** for each schedule trigger).
 - **Value:** Object with **`handler`** (string) = name of the function exported from **`app-backend/server.js`** that will be called when the event fires. The handler receives `{ payload }`.
 - **Multiple events → one handler:** Different event keys may use the **same** `handler` string if one implementation handles several platform events (e.g. `onContactCreate` and `onSubmissionComplete` both `"onSubmissionComplete"`).
 
@@ -194,10 +201,9 @@ Nested under **`product_config.<product>.backend_api_functions`**.
 - **Keys:** Function names that must be exported from **`app-backend/server.js`**; only those exports become API endpoints.
 - **Value:** Object. Optional `timeout` (number, seconds). Other options may be supported by the platform.
 
-### installation_parameters (iparams)
+### installation_parameters
 
-Nested under **`product_config.<product>.installation_parameters`**. In code and runtime (e.g. SDK) these are often referred to as **iparams** (e.g. `<%=iparams.<key>%>`). Manifest key is **`installation_parameters`** (not `installation_params`).
-
+Nested under **`product_config.<product>.installation_parameters`**. In code and runtime (e.g. SDK) these are often referred to as **installation_parameters** (e.g. `<%=installation_parameters.<key>%>`).
 ```json
 "installation_parameters": {
   "surveysparrow_api_key": {
@@ -219,14 +225,18 @@ Nested under **`product_config.<product>.installation_parameters`**. In code and
 ```
 
 - **Keys:** Parameter keys used at installation.
-- **Value:** Object. **Required fields:** `display_name` (string), `description` (string), `type` (string: **`api_key`** for product API key, or `text`), `required` (boolean). **Optional:** `secure` (boolean), `default_value` (any), `data-bind` (string, e.g. `"product.api_key"` for API key params). Use **`installation_parameters`** (not `installation_params`).
+- **Value:** Object. **Required fields:** `display_name` (string), `description` (string), `type` (string; must be one of the **installation parameter types** below), `required` (boolean). **Optional:** `secure` (boolean), `default_value` (any), `data-bind` (string, e.g. `"product.api_key"` for API key params). Use **`installation_parameters`** (not `installation_params`).
 
-### oauth_config
+**Installation parameter types** (exact strings for `type`):
 
-Nested under **`product_config.<product>.oauth_config`**.
+`text`, `paragraph`, `dropdown`, `email`, `number`, `phone_number`, `date`, `url`, `radio`, `checkbox`, `multiselect`, `domain`, `api_key`
+
+### app_oauth_config
+
+Nested under **`product_config.<product>.app_oauth_config`**.
 
 ```json
-"oauth_config": {
+"app_oauth_config": {
   "googleCalendar": {
     "client_id": "...",
     "client_secret": "...",
@@ -256,7 +266,7 @@ Nested under **`product_config.<product>.oauth_config`**.
 | Top-level | `product_config` | object | Product key(s) → app config object |
 | Under product | `frontend_locations` | object | `{ full_page_app: { url: "index.html" } }` |
 | Under product | `whitelisted_domains` | string[] | Domain regex patterns |
-| Under product | `event_listener_functions` | object | `{ "<eventName>": { handler: "<exportedFnName>" } }` |
+| Under product | `event_listener_functions` | object | `{ "<eventName>": { handler: "<exportedFnName>" } }` — include **`onScheduledEvent`** → handler for each schedule trigger |
 | Under product | `backend_api_functions` | object | `{ "<fnName>": { timeout?: number } }` |
-| Under product | `installation_parameters` (iparams) | object | `{ "<paramKey>": { data-bind?, display_name, description, type, required, secure?, default_value? } }` — type e.g. `api_key`, `text` |
-| Under product | `oauth_config` | object | `{ "<provider>": { client_id, client_secret, authorize_url, token_url, options? } }` |
+| Under product | `installation_parameters` | object | `{ "<paramKey>": { data-bind?, display_name, description, type, required, secure?, default_value? } }` — `type` must be one of: `text`, `paragraph`, `dropdown`, `email`, `number`, `phone_number`, `date`, `url`, `radio`, `checkbox`, `multiselect`, `domain`, `api_key` |
+| Under product | `app_oauth_config` | object | `{ "<provider>": { client_id, client_secret, authorize_url, token_url, options? } }` |
