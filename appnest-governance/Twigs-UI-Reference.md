@@ -53,7 +53,7 @@ When adding Twigs to **`app-frontend/package.json`**, use **`"*"`** as the versi
 
 ## Responsive, SaaS polish, and consistency
 
-Requirements and examples are in **[App-Frontend-Rules.md](App-Frontend-Rules.md)** (sections 3–5, 9, and the quick reference table). This reference does not repeat them.
+Requirements and examples are in **[App-Frontend-Rules.md](App-Frontend-Rules.md)** (sections 4–6, 10, and the quick reference table). This reference does not repeat them.
 
 - **All screens:** Twigs only—no mix of raw HTML controls on some screens and Twigs on others.
 - **Exact component names and props:** Use the [Twigs documentation](https://twigs.surveysparrow.com/); verify exports before assuming names like `Alert` or `Spinner` exist.

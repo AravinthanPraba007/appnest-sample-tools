@@ -69,7 +69,7 @@ Normative standards for calling external services from backend handlers.
 - [ ] No reliance on custom App.css classes (e.g. `.btn`, `.alert`, `.run-list`) when Twigs provides equivalent components; the app must look like a single Twigs-based design.  
 - [ ] **Responsive:** UI uses **responsive** layout (Twigs responsive props/patterns) so the app works well on desktop, tablet, and mobile; no fixed widths that break on small screens.  
 - [ ] **SaaS “wow” UI:** The app is viewed **inside a SaaS product** and delivers a **polished, professional** look and feel—clear hierarchy, readable typography, coherent spacing—so it feels native to the host and meets the quality users expect from a modern SaaS app.  
-- [ ] Before considering frontend complete, confirm every screen uses Twigs only, layout uses Stack/Box, UI is responsive, and the experience is polished for a SaaS context. See [App-Frontend-Rules.md](App-Frontend-Rules.md) (full rules and section 17 checklist) and [Twigs-UI-Reference.md](Twigs-UI-Reference.md) (mapping table).  
+- [ ] Before considering frontend complete, confirm every screen uses Twigs only, layout uses Stack/Box, UI is responsive, and the experience is polished for a SaaS context. See [App-Frontend-Rules.md](App-Frontend-Rules.md) (full rules and section 18 checklist) and [Twigs-UI-Reference.md](Twigs-UI-Reference.md) (mapping table).  
 
 ---
 

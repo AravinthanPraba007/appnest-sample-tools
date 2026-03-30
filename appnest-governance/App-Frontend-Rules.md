@@ -143,9 +143,74 @@ Adapt for **desktop**, **tablet**, **mobile**:
 - **Subtle shadows** and **soft borders** where Twigs supports them.
 - **Neutral base** + **one accent** for primary actions.
 
-### Typography hierarchy
+### Typography and readability
 
-Maintain clear levels: **page title** → **section header** → **card title** → **body** → **metadata** (use Twigs **Text** variants / props as documented).
+**Goal:** Text should be easy to scan and read at a glance, with **size, weight, and style** reflecting **role**—not everything at the same visual weight.
+
+- **Hierarchy (largest → smallest):** **page title** → **section header** → **card / list title** → **body** → **captions / helper / metadata** → **nav labels** (distinct but not competing with page titles).
+- **Headings:** Use **larger sizes** and **bolder weight** than body copy so structure is obvious. Prefer one clear **page title** per view; subsection headings step down in size/weight consistently.
+- **Body text:** Use a **comfortable base size** for the platform (not smaller than typical readable UI copy). **Line height** should feel airy enough for paragraphs—avoid cramped multi-line blocks.
+- **Navigation (sidebar, top bar, tabs):** Use a **dedicated treatment**: slightly **smaller or medium** size vs. the page title, often **medium** weight for active items and **regular** for inactive—so nav reads as **chrome**, not as the primary headline layer. Icons + labels should align; keep label truncation rules consistent (ellipsis + tooltip when truncated).
+- **Metadata** (timestamps, counts, tertiary labels): **Smaller size** and/or **muted** color via tokens—still **meeting contrast** requirements (see §13).
+- **Implementation:** Map these roles to Twigs **Text** (or typography) **variants / token sizes / weights** as documented—do not rely on default browser font stacking for hierarchy.
+
+### Selects, dropdowns, and menus
+
+Options and menu items must stay **legible**; never sacrifice clarity for density alone.
+
+- **Option text:** Use **full, clear labels**; avoid cryptic abbreviations unless expanded in a tooltip or secondary line.
+- **Limited width:** Prefer **one** of: (a) **truncate** with **ellipsis** and expose full text on **hover/focus** (tooltip or title attribute where appropriate), or (b) **wrap** to multiple lines when wrapping is supported and does not break layout—pick per pattern and stay consistent within the same surface.
+- **Multi-line options:** If labels wrap, keep **consistent padding** and **alignment** so lists remain scannable; avoid uneven row heights without reason.
+- **Long lists:** Consider **grouping**, **search/filter** in the control, or **max height + scroll** so the trigger and first options remain usable.
+- Implement with **Twigs** Select / Dropdown / Menu primitives; respect **keyboard** and **focus** behavior (§13).
+
+### Visual refinement (look and feel)
+
+Small details that keep the UI feeling **intentional** and **product-grade**:
+
+- **Contrast:** Body and labels should meet readable contrast on backgrounds; do not rely on **ultra-light** text for essential content.
+- **Alignment and rhythm:** **Baseline-align** related text (e.g. label + control); use **consistent** horizontal padding in toolbars, cards, and lists.
+- **Interactive targets:** Keep **tap/click targets** adequately sized; do not shrink controls so much that labels clip unintentionally.
+- **Dividers:** Use **light** separators sparingly; prefer **spacing** to separate groups when possible.
+- **Icons:** Pair with **labels** when meaning is not universal; size icons in proportion to adjacent text.
+
+### UI generation checklist (MUST)
+
+Use this when **generating or reviewing** screens. Everything below is expressed with **Twigs** (Stack, Box, primitives for nav, select, dialog—never raw HTML controls).
+
+| Area | MUST (all items in the row) |
+|------|------------------------------|
+| **Stack & Box / layout** | • Use **Stack** for flow and **gap**; **Box** for padded surfaces, radius, borders—no nesting that fights spacing. • **8px-based** rhythm (tokens) for gaps and padding. • **Max-width** + horizontal inset for main content on large screens. • **More space between sections** than within a section. |
+| **Navigation** | • Nav as **chrome**: typography **quieter** than **page title** (see **Typography and readability**). • **Clear active** state (tokens: color and/or weight). • **Small screens**: collapse, menu, or drawer—no reliance on clipped labels. • **Icons + labels** aligned; **ellipsis + tooltip** when labels truncate. |
+| **Dropdown / select / menu** | • **Legible** option rows (padding, contrast); **Twigs** primitives only. • Tight width: **truncate + full text on hover/focus** *or* **wrap**—**one pattern per surface**. • **Keyboard** + visible **focus**; **loading** and **empty** for async lists. • Long lists: **group**, **search/filter**, or **scroll**. |
+| **Modal / drawer / popover** | • **Intent**: blocking → **modal**; extended context/form → **drawer**; light edit → **popover**; avoid nested modals when possible. • **Focus trap** in modal; **return focus** on close; **ESC** when safe. • **Title**, body, footer; **one primary** in the action region. • **Readable** backdrop; overlay content meets **contrast** (§13). |
+| **Button** | • **One primary** per logical block (card, footer, dialog actions). • **Loading** + **disabled**; no **double submit**. • **Destructive** only for harmful actions; labels state outcome (not vague “OK”). • **Hit targets** adequate, especially **icon-only** on touch. |
+
+### References (SaaS UI patterns — discussion & inspiration)
+
+These are **industry references** for hierarchy, density, and interaction quality. **Implementation stays Twigs** (§3); use the links to align **intent** with common SaaS and product UI practice, not to copy unrelated stacks.
+
+**For automated codegen (AI tools):** Rely on **§5**—especially the **UI generation checklist**, **Typography and readability**, **Selects / dropdowns**, **Condensed principles** below, and **§3–4**. **Do not assume** external URLs can be fetched; treat links as **human follow-up** and **citation only**. They do not add new MUST rules beyond this file.
+
+**Condensed principles (in-house summary):** The checklist above is the **enforceable** bar. The bullets below distill what those references keep repeating—use them for **reviews and discussions** without replacing §5 or Twigs.
+
+- **Consistency:** Same control and wording for the same job; users should not have to guess how this app behaves vs. the host product.
+- **Recognition over recall:** Prefer visible structure, clear labels, and obvious affordances—especially for nav, menus, and primary actions.
+- **Errors and risk:** Prevent mistakes where possible; for destructive or irreversible actions, confirm with explicit outcomes (not vague “OK”).
+- **Choice and targets:** Fewer competing choices per decision point; primary actions should be easy to see and hit (including on touch).
+- **Hierarchy before decoration:** Establish structure with **type scale, weight, and spacing** before adding borders, shadows, or extra chrome.
+- **Accessibility as part of polish:** Readable contrast, visible focus, predictable modals and focus return—same sources (M3, HIG) reinforce this.
+
+| Resource | Useful for |
+|----------|------------|
+| [Nielsen Norman Group: 10 usability heuristics](https://www.nngroup.com/articles/ten-usability-heuristics/) | Error prevention, consistency, recognition over recall, match to the real world—good **review lens** for any generated UI. |
+| [Laws of UX](https://lawsofux.com/) | Short principles (e.g. Hick’s Law, Fitts’s Law) that explain **why** simpler nav, clear primary actions, and target size matter. |
+| [Refactoring UI](https://www.refactoringui.com/) | Practical **visual hierarchy**, spacing, and typography judgment—aligns with “calm SaaS” without mandating a specific framework. |
+| [Material Design 3](https://m3.material.io/) | **Patterns** for components, motion, and accessibility; adapt concepts through **Twigs** components and tokens. |
+| [Apple Human Interface Guidelines](https://developer.apple.com/design/human-interface-guidelines/) | **Clarity, deference, depth**—useful for touch targets, feedback, and modal behavior expectations in embedded/Web-style UIs. |
+| [Stripe Docs: Design your app (Stripe Apps)](https://docs.stripe.com/stripe-apps/design) | **Embedded SaaS** thinking: contextual vs. focused surfaces, app chrome vs. host content, constrained styling for consistency and **accessibility**—parallels Appnest apps living inside another product. **Still implement with Twigs** here; do not adopt Stripe’s proprietary UI SDK. |
+
+**Qualitative reference (no single spec URL):** Products such as **Linear** (and similar dense dashboards) are useful **examples** of calm hierarchy and keyboard-friendly density; treat them as **inspiration**, not a contract—the **UI generation checklist** and Twigs remain authoritative.
 
 ### Performance (UI)
 
@@ -250,7 +315,7 @@ Use clear, descriptive names everywhere.
 ## 17. Before considering frontend complete
 
 - Run the **Frontend UI (Twigs)** section of [Code-Review-and-AI-Generation-Checklist.md](Code-Review-and-AI-Generation-Checklist.md).
-- Confirm: (a) Twigs packages in package.json with version `"*"`, (b) no raw HTML for controls, (c) layout uses Stack/Box, (d) backend calls use `window.appnestClientFunctions.appBackend.invoke({ apiFunctionName, payload })` and response `{ statusCode, body }`, (e) UI matches **§5 SaaS style** (hierarchy, spacing, states, responsive shell) and is polished for a SaaS context, (f) structure, naming, API/error handling, and accessibility (§6–§16) are followed where applicable.
+- Confirm: (a) Twigs packages in package.json with version `"*"`, (b) no raw HTML for controls, (c) layout uses Stack/Box, (d) backend calls use `window.appnestClientFunctions.appBackend.invoke({ apiFunctionName, payload })` and response `{ statusCode, body }`, (e) UI matches **§5 SaaS style** and the **UI generation checklist** (typography hierarchy, nav vs. title, dropdowns/modals/buttons/layout, spacing, states, responsive shell) and is polished for a SaaS context, (f) structure, naming, API/error handling, and accessibility (§6–§16) are followed where applicable.
 
 ---
 
@@ -261,7 +326,7 @@ Use clear, descriptive names everywhere.
 | Entry | `app-frontend/src/App.jsx` as root | react/react-dom in package.json; multiple roots |
 | Backend call | `window.appnestClientFunctions.appBackend.invoke({ apiFunctionName, payload })`; handle `{ statusCode, body }` | fetch/axios to app backend; wrong param name |
 | UI | Twigs only; Stack/Box layout; version `"*"`; verify names at twigs.surveysparrow.com | Raw HTML for controls; fixed versions like ^2.0.0; assume Alert/Spinner without verifying |
-| UX | Responsive; mobile-first; SaaS "wow"; **§5** Stripe/Linear/Notion-style hierarchy & states | Fixed widths; cluttered layouts; Tailwind-as-primary UI |
+| UX | Responsive; mobile-first; SaaS "wow"; **§5** hierarchy (type, nav, dropdowns), spacing & states | Fixed widths; cluttered layouts; uniform font sizes; clipped unreadable menu text; Tailwind-as-primary UI |
 | Structure | Clear folders (components, pages, hooks, services, utils); modular; index where helpful | Deep nesting; monolithic files |
 | Naming | PascalCase components; camelCase `use*` hooks; kebab-case files; UPPER_SNAKE_CASE constants | Inconsistent or unclear names |
 | API/errors | Separate invoke logic (services/hooks); loading + error states; user-friendly messages | Raw API errors to user; no loading/error handling |
