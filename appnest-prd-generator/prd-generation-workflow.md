@@ -60,7 +60,7 @@ Step-by-step execution to turn an app idea and question answers into a complete,
    - `{{mvp_scope}}`, `{{milestones}}`
 3. In `06-technical-architecture.md`, ensure:
    - Backend entry is **`app-backend/server.js`** and only exported functions are invokable.
-   - Frontend entry is **`app-frontend/src/App.jsx`**; backend is called via **`window.appnestClientFunctions.appBackend.invoke({ apiFunctionName, payload })`**.
+   - Frontend entry is **`app-frontend/src/App.jsx`**; backend is called via **`window.AppnestFunctions.$app.backend({ functionName, functionPayload })`**.
    - All I/O uses **Appnest Functions** ($db, $fetch, $file, $next, $schedule; `getTraceId` for logging/correlation); no axios/fetch; no adding `@sparrowengg/appnest-app-sdk-utils` to backend package.json; no react/react-dom in frontend package.json.
    - UI components use **`@sparrowengg/twigs-react`** and **`@sparrowengg/twigs-react-icons`**; in package.json use version **`"*"`** (latest), not a fixed version that may not exist (e.g. ^2.0.0). See appnest-governance/App-Frontend-Rules.md and appnest-governance/Twigs-UI-Reference.md.
 4. In `08-api-contracts.md`, ensure every backend function and event handler is named and matches the manifest schema (backend_api_functions, event_listener_functions).

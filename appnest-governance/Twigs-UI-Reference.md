@@ -1,6 +1,6 @@
 # Twigs UI reference (for code generation)
 
-**Companion to [App-Frontend-Rules.md](App-Frontend-Rules.md)** — read that file first for mandatory rules (React entry, backend `invoke`, Twigs-only policy, responsive layout, SaaS look-and-feel, structure, and checklist). **This file** is the lookup for **Twigs `package.json` versions** and the **HTML → Twigs mapping table**.
+**Companion to [App-Frontend-Rules.md](App-Frontend-Rules.md)** — read that file first for mandatory rules (React entry, backend **`$app.backend`**, Twigs-only policy, responsive layout, SaaS look-and-feel, structure, and checklist). **This file** is the lookup for **Twigs `package.json` versions** and the **HTML → Twigs mapping table**.
 
 Use **`@sparrowengg/twigs-react`** and **`@sparrowengg/twigs-react-icons`** for all Appnest app UI. Use these components **instead of** raw HTML so the app has a consistent, SaaS-style look.
 

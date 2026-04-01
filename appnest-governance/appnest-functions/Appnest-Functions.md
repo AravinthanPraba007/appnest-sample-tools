@@ -22,14 +22,14 @@ Available helpers (destructure only what you need):
 The platform provides this package at runtime for backend code. Use it for storage, HTTP calls, file handling, chaining backend functions, and scheduling jobs.
 
 ## Frontend AppnestFunctions
-From **`window.AppnestFunctions`**, take **`$appBackend`** and **`await`** **`invoke`**:
+From **`window.AppnestFunctions`**, take **`$app`** and **`await`** **`backend`**:
 
 ```js
-const { $appBackend } = window.AppnestFunctions;
+const { $app } = window.AppnestFunctions;
 
-const data = await $appBackend.invoke({
-  apiFunctionName: 'myBackendHandler',
-  payload: { userId: 123 },
+const data = await $app.backend({
+  functionName: 'myBackendHandler',
+  functionPayload: { userId: 123 },
 });
 ```
 

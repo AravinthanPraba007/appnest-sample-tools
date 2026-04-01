@@ -7,14 +7,14 @@ This document describes **`window.AppnestFunctions`**, loaded by **`client.js`**
 1. **`client.js` is loaded** in your app page (before you call `AppnestFunctions`).
 2. Your app is **embedded in the product iframe** so `window.parent` is the host that runs the matching parent script (`parent.js`).
 3. **`document.referrer`** must be the product origin; the client uses it as the `postMessage` target (`targetOrigin`).
-4. For **`$appBackend.invoke`**, the app URL must include query params **`appVersionId`** and **`appId`** (read once at load). They are sent on every backend-invoke request.
+4. For **`$app.backend`**, the app URL must include query params **`appVersionId`** and **`appId`** (read once at load). They are sent on every backend-invoke request.
 
 ## Global: `window.AppnestFunctions`
 
 ```js
 window.AppnestFunctions = {
   $check,
-  $appBackend,
+  $app,
   $productParent,
 };
 ```
@@ -40,37 +40,37 @@ console.log(ok.data.message); // "Hello from Frontend AppnestFunctions"
 
 ---
 
-## `$appBackend`
+## `$app`
 
 Server-side calls through the Sparrow Apps API (`/v2/api/sparrow-apps/backend-invoke`), proxied via the parent.
 
-### `$appBackend.invoke`
+### `$app.backend`
 
 | | |
 |---|---|
-| **Signature** | `invoke({ apiFunctionName, payload?, options? })` |
+| **Signature** | `backend({ functionName, functionPayload?, options? })` |
 | **Returns** | `Promise<object>` — parsed JSON body of the HTTP response |
 
 **Parameters**
 
 | Name | Type | Required | Description |
 |------|------|----------|-------------|
-| `apiFunctionName` | `string` | Yes | Backend method name (`serverMethod` sent to the API). Non-empty string. |
-| `payload` | `any` | No | JSON-serializable argument for the server method. |
+| `functionName` | `string` | Yes | Backend method name (`serverMethod` sent to the API). Non-empty string. |
+| `functionPayload` | `any` | No | JSON-serializable argument for the server method. |
 | `options` | `object` | No | Reserved; may include `timeout` (ms) forwarded to the underlying request (default **120000**). |
 
 **Behavior**
 
-- Sends `POST` with body: `{ serverMethod, payload, appVersionId, appId, traceId }` (`traceId` is generated per call).
+- Sends `POST` with body: `{ serverMethod, payload, appVersionId, appId, traceId }` where **`serverMethod`** comes from **`functionName`** and **`payload`** from **`functionPayload`** (`traceId` is generated per call).
 - On HTTP **401**, shows a toastr error on the client.
 - On status **> 300**, shows a toastr error and rejects with `Error('Sparrowapps API Error')`.
 
 **Example**
 
 ```js
-const result = await window.AppnestFunctions.$appBackend.invoke({
-  apiFunctionName: 'myServerHandler',
-  payload: { foo: 'bar' },
+const result = await window.AppnestFunctions.$app.backend({
+  functionName: 'myServerHandler',
+  functionPayload: { foo: 'bar' },
 });
 ```
 
@@ -146,10 +146,10 @@ Set `DEBUG = true` at the top of `client.js` to enable verbose `console.trace` l
 ```ts
 interface AppnestFunctions {
   $check: () => { data: { message: string } };
-  $appBackend: {
-    invoke: (args: {
-      apiFunctionName: string;
-      payload?: unknown;
+  $app: {
+    backend: (args: {
+      functionName: string;
+      functionPayload?: unknown;
       options?: { timeout?: number };
     }) => Promise<unknown>;
   };

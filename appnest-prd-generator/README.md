@@ -89,7 +89,7 @@ and lists which checklist items failed or need clarification.
 The generator and templates assume:
 
 - **Backend:** `app-backend/server.js` is the single entry; only exported functions are invokable. All I/O uses **Appnest Functions** ($db, $fetch, $file, $next, $schedule; `getTraceId` for correlation); no axios/fetch; do not add `@sparrowengg/appnest-app-sdk-utils` to `package.json`.
-- **Frontend:** `app-frontend/src/App.jsx` is the root; backend is called via `window.appnestClientFunctions.appBackend.invoke({ apiFunctionName, payload })`. React/react-dom are platform-provided; UI built with `@sparrowengg/twigs-react` and `@sparrowengg/twigs-react-icons`.
+- **Frontend:** `app-frontend/src/App.jsx` is the root; backend is called via `window.AppnestFunctions.$app.backend({ functionName, functionPayload })`. React/react-dom are platform-provided; UI built with `@sparrowengg/twigs-react` and `@sparrowengg/twigs-react-icons`.
 - **Manifest:** Every invokable backend function is listed in `backend_api_functions`; every event handler in `event_listener_functions`; OAuth and installation params declared as per manifest schema.
 - **Governance:** Details are in `appnest-tools/appnest-governance/` (app development guide, execution flows, **Appnest Functions** reference under `appnest-functions/`, manifest rules, code review checklist including external API standards).
 

@@ -26,7 +26,7 @@ If the app has **no full-page UI** (backend-only or events-only), write *Not app
 | **How user reaches it** | {{screen_1_entry}} |
 | **Layout / sections** | {{screen_1_layout}} Use **Stack** and **Box** for layout (e.g. header, filters bar, table, footer). |
 | **Main UI elements (Twigs only)** | {{screen_1_elements}} List **exact Twigs component names** (e.g. **Button**, **Box**, **Stack**, **Text**, **Select**, **Input**, **Alert**, **Table**, **Spinner**). Use **only** Twigs and twigs-react-icons—**no raw HTML** for buttons, selects, inputs, or tables. Map: dropdown → Select, error → Alert, loading → Spinner, data grid → Table. |
-| **User actions** | {{screen_1_actions}} For each action that calls the backend: **action** → **apiFunctionName** (from `backend_api_functions`), payload summary. |
+| **User actions** | {{screen_1_actions}} For each action that calls the backend: **action** → **functionName** (from `backend_api_functions`), **functionPayload** summary. |
 | **Data shown** | {{screen_1_data}} (source: e.g. response of `getMappings`, or “field X from API Y”) |
 | **Empty / loading / error** | {{screen_1_states}} Use **Text**, **Spinner**, **Alert** for empty, loading, and error states—no raw HTML or custom CSS-only divs. |
 
@@ -40,7 +40,7 @@ If the app has **no full-page UI** (backend-only or events-only), write *Not app
 | **How user reaches it** | {{screen_2_entry}} |
 | **Layout / sections** | {{screen_2_layout}} Use **Stack** and **Box** for layout. |
 | **Main UI elements (Twigs only)** | {{screen_2_elements}} Exact Twigs components (Button, Select, Input, Alert, Table, Spinner, Stack, Box, Text, etc.). No raw HTML for controls. |
-| **User actions** | {{screen_2_actions}} (action → apiFunctionName, payload summary) |
+| **User actions** | {{screen_2_actions}} (action → functionName, functionPayload summary) |
 | **Data shown** | {{screen_2_data}} |
 | **Empty / loading / error** | {{screen_2_states}} Use Twigs **Text**, **Spinner**, **Alert** where applicable. |
 

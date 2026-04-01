@@ -22,16 +22,16 @@
 
 | Rule | Constraint |
 |------|------------|
-| **API** | **MUST** call the backend via **`window.appnestClientFunctions.appBackend.invoke({ apiFunctionName, payload })`**. |
-| **Parameter name** | Use **`apiFunctionName`** (exact). The value must match a function **exported** from `app-backend/server.js` and declared in `manifest.json` → `backend_api_functions`. |
+| **API** | **MUST** call the backend via **`window.AppnestFunctions.$app.backend({ functionName, functionPayload })`**. |
+| **Parameter names** | Use **`functionName`** and **`functionPayload`** (exact). **`functionName`** must match a function **exported** from `app-backend/server.js` and declared in `manifest.json` → `backend_api_functions`. |
 | **Response** | Response shape is **`{ statusCode, body }`**. `body` is the handler return (e.g. from `ResultData`). Always check `response.statusCode` before using `response.body`. |
-| **MUST NOT** | Use `fetch`, `axios`, or any other HTTP client to call app backend. Do not use a different parameter name (e.g. `functionName`) for the invoke call—use **`apiFunctionName`**. |
+| **MUST NOT** | Use `fetch`, `axios`, or any other HTTP client to call app backend. Do not use legacy names **`apiFunctionName`** / **`payload`** on the client call—use **`functionName`** / **`functionPayload`**. |
 
 **Example:**
 ```javascript
-const response = await window.appnestClientFunctions.appBackend.invoke({
-  apiFunctionName: 'getUserSettings',
-  payload: { userId: 'user_123' }
+const response = await window.AppnestFunctions.$app.backend({
+  functionName: 'getUserSettings',
+  functionPayload: { userId: 'user_123' }
 });
 if (response.statusCode >= 200 && response.statusCode < 300) {
   const data = response.body;
@@ -292,7 +292,7 @@ Use clear, descriptive names everywhere.
 
 ## 14. API handling and error handling
 
-- **Separate API/backend logic from UI:** Use **services** or dedicated modules for `window.appnestClientFunctions.appBackend.invoke(...)`. Components should call a service/hook that returns data or error state, not invoke directly in the middle of JSX when it can be avoided.
+- **Separate API/backend logic from UI:** Use **services** or dedicated modules for `window.AppnestFunctions.$app.backend(...)`. Components should call a service/hook that returns data or error state, not invoke directly in the middle of JSX when it can be avoided.
 - **Loading and error states:** Always handle loading (e.g. spinner/skeleton) and errors (e.g. user-facing message). Do not leave the user with a blank screen or raw API errors.
 - **User-facing errors:** Show **user-friendly error messages**. Do **not** expose raw API errors or stack traces to the user. Log details for debugging if needed.
 
@@ -315,7 +315,7 @@ Use clear, descriptive names everywhere.
 ## 17. Before considering frontend complete
 
 - Run the **Frontend UI (Twigs)** section of [Code-Review-and-AI-Generation-Checklist.md](Code-Review-and-AI-Generation-Checklist.md).
-- Confirm: (a) Twigs packages in package.json with version `"*"`, (b) no raw HTML for controls, (c) layout uses Stack/Box, (d) backend calls use `window.appnestClientFunctions.appBackend.invoke({ apiFunctionName, payload })` and response `{ statusCode, body }`, (e) UI matches **§5 SaaS style** and the **UI generation checklist** (typography hierarchy, nav vs. title, dropdowns/modals/buttons/layout, spacing, states, responsive shell) and is polished for a SaaS context, (f) structure, naming, API/error handling, and accessibility (§6–§16) are followed where applicable.
+- Confirm: (a) Twigs packages in package.json with version `"*"`, (b) no raw HTML for controls, (c) layout uses Stack/Box, (d) backend calls use `window.AppnestFunctions.$app.backend({ functionName, functionPayload })` and response `{ statusCode, body }`, (e) UI matches **§5 SaaS style** and the **UI generation checklist** (typography hierarchy, nav vs. title, dropdowns/modals/buttons/layout, spacing, states, responsive shell) and is polished for a SaaS context, (f) structure, naming, API/error handling, and accessibility (§6–§16) are followed where applicable.
 
 ---
 
@@ -324,7 +324,7 @@ Use clear, descriptive names everywhere.
 | Area | MUST | MUST NOT |
 |------|------|----------|
 | Entry | `app-frontend/src/App.jsx` as root | react/react-dom in package.json; multiple roots |
-| Backend call | `window.appnestClientFunctions.appBackend.invoke({ apiFunctionName, payload })`; handle `{ statusCode, body }` | fetch/axios to app backend; wrong param name |
+| Backend call | `window.AppnestFunctions.$app.backend({ functionName, functionPayload })`; handle `{ statusCode, body }` | fetch/axios to app backend; wrong param names |
 | UI | Twigs only; Stack/Box layout; version `"*"`; verify names at twigs.surveysparrow.com | Raw HTML for controls; fixed versions like ^2.0.0; assume Alert/Spinner without verifying |
 | UX | Responsive; mobile-first; SaaS "wow"; **§5** hierarchy (type, nav, dropdowns), spacing & states | Fixed widths; cluttered layouts; uniform font sizes; clipped unreadable menu text; Tailwind-as-primary UI |
 | Structure | Clear folders (components, pages, hooks, services, utils); modular; index where helpful | Deep nesting; monolithic files |

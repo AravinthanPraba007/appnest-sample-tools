@@ -134,17 +134,17 @@ Add both with version **`"*"`** (latest)—do not pin to versions that may not e
 ### Entry and calling the backend
 
 - **`app-frontend/src/App.jsx`** is always the root component; build UI there or in components it imports.  
-- Call the backend with **`window.appnestClientFunctions.appBackend.invoke({ apiFunctionName, payload })`**. Only functions exported from **`app-backend/server.js`** can be invoked.  
-- **`invoke`** returns **`{ statusCode, body }`**: when the backend uses **`ResultData({ body, statusCode })`**, those values are used; otherwise the framework may assign a default `statusCode` (e.g. `200`) and expose the returned object as `body`.  
+- Call the backend with **`window.AppnestFunctions.$app.backend({ functionName, functionPayload })`**. Only functions exported from **`app-backend/server.js`** can be invoked.  
+- **`$app.backend`** returns **`{ statusCode, body }`**: when the backend uses **`ResultData({ body, statusCode })`**, those values are used; otherwise the framework may assign a default `statusCode` (e.g. `200`) and expose the returned object as `body`.  
 - Use **`getClient()`** from **`src/utils/client.js`** when you need the classic Appnest client (e.g. `window.app.initialized()`).  
 - Entry URL for the full-page app is set in **`manifest.json`** → **`frontend_locations.full_page_app.url`**.  
 
 ### Calling backend from the frontend
 
 ```javascript
-const response = await window.appnestClientFunctions.appBackend.invoke({
-  apiFunctionName: 'function1',   // export name in app-backend/server.js + key in manifest.backend_api_functions
-  payload: { name: 'John Doe' },
+const response = await window.AppnestFunctions.$app.backend({
+  functionName: 'function1',   // export name in app-backend/server.js + key in manifest.backend_api_functions
+  functionPayload: { name: 'John Doe' },
 });
 
 if (response.statusCode >= 200 && response.statusCode < 300) {
@@ -154,8 +154,8 @@ if (response.statusCode >= 200 && response.statusCode < 300) {
 }
 ```
 
-- **`apiFunctionName`** — Must match an export from **`app-backend/server.js`** and **`manifest.json`** → **`backend_api_functions`**.  
-- **`payload`** — Passed to your handler as **`{ payload }`**.  
+- **`functionName`** — Must match an export from **`app-backend/server.js`** and **`manifest.json`** → **`backend_api_functions`**.  
+- **`functionPayload`** — Passed to your handler as **`{ payload }`** (the handler argument is still named **`payload`** on the server).  
 
 Example in a React component (use **Twigs** for controls—not raw `<button>`):
 
@@ -164,9 +164,9 @@ import { Button } from '@sparrowengg/twigs-react';
 
 const makeBackendCall = async () => {
   try {
-    const response = await window.appnestClientFunctions.appBackend.invoke({
-      apiFunctionName: 'function1',
-      payload: { name: 'John Doe' },
+    const response = await window.AppnestFunctions.$app.backend({
+      functionName: 'function1',
+      functionPayload: { name: 'John Doe' },
     });
     if (response.statusCode >= 200 && response.statusCode < 300) {
       console.log(response.body);
@@ -186,7 +186,7 @@ return <Button onClick={makeBackendCall}>Make backend call</Button>;
 - **`app-frontend`** — Main full-page app UI.  
 - **`app-install-frontend`** — Optional installation/setup UI (omit the folder if you don’t need it; use **`manifest.json`** when your product enables a custom installation UI—see **[Manifest-Rules.md](app-configuration/Manifest-Rules.md)**).  
 
-Both follow the same pattern: components + **`invoke`** or **`getClient()`** as needed.
+Both follow the same pattern: components + **`$app.backend`** or **`getClient()`** as needed.
 
 ### Frontend rules (engine / tooling)
 

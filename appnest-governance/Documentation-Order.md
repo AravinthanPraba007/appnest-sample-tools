@@ -4,7 +4,7 @@ Folders and files under `appnest-governance/` are **not** numbered. Use this lis
 
 ## 1. Orientation
 
-1. [Appnest-App-Development-Guide.md](Appnest-App-Development-Guide.md) — app structure, fixed entries (`server.js`, `App.jsx`), **`manifest.json`** wiring, **`invoke`**, Twigs overview, validate/pack, example tree, try/catch.
+1. [Appnest-App-Development-Guide.md](Appnest-App-Development-Guide.md) — app structure, fixed entries (`server.js`, `App.jsx`), **`manifest.json`** wiring, **`$app.backend`**, Twigs overview, validate/pack, example tree, try/catch.
 
 ## 2. Execution and flows
 
