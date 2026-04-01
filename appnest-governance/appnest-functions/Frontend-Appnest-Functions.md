@@ -1,165 +1,63 @@
-# FrontendAppnestFunctions (client bridge)
+# `window.AppnestFunctions` (developer reference)
 
-This document describes **`window.AppnestFunctions`**, loaded by **`client.js`** inside your marketplace app iframe. Use it to call the **parent window** (product shell) and the **Sparrow Apps backend**.
+**What it is:** A global object added when **`client.js`** runs in your marketplace app iframe. Use it from your frontend to call the **Sparrow Apps backend** from supported APIs below.
 
-## Prerequisites
+**Before you call it:** Load `client.js` first. Your app should run inside the product iframe. For **`$app.backend`**, the app URL should include **`appId`** and **`appVersionId`** query params.
 
-1. **`client.js` is loaded** in your app page (before you call `AppnestFunctions`).
-2. Your app is **embedded in the product iframe** so `window.parent` is the host that runs the matching parent script (`parent.js`).
-3. **`document.referrer`** must be the product origin; the client uses it as the `postMessage` target (`targetOrigin`).
-4. For **`$app.backend`**, the app URL must include query params **`appVersionId`** and **`appId`** (read once at load). They are sent on every backend-invoke request.
+---
 
-## Global: `window.AppnestFunctions`
+## Exposed API
 
 ```js
 window.AppnestFunctions = {
   $check,
-  $app,
-  $productParent,
+  $app: { backend },
 };
 ```
 
----
+### `$check()`
 
-## `$check`
-
-**Purpose:** Quick sanity check that the bridge script loaded.
-
-| | |
-|---|---|
-| **Type** | Synchronous |
-| **Signature** | `$check()` |
-| **Returns** | `{ data: { message: string } }` |
-
-**Example**
+Confirms the bridge loaded. Returns synchronously.
 
 ```js
-const ok = window.AppnestFunctions.$check();
-console.log(ok.data.message); // "Hello from Frontend AppnestFunctions"
+const { data } = window.AppnestFunctions.$check();
+// data.message — e.g. greeting from the client bridge
 ```
 
----
+### `$app.backend({ functionName, functionPayload?, options? })`
 
-## `$app`
-
-Server-side calls through the Sparrow Apps API (`/v2/api/sparrow-apps/backend-invoke`), proxied via the parent.
-
-### `$app.backend`
-
-| | |
-|---|---|
-| **Signature** | `backend({ functionName, functionPayload?, options? })` |
-| **Returns** | `Promise<object>` — parsed JSON body of the HTTP response |
-
-**Parameters**
-
-| Name | Type | Required | Description |
-|------|------|----------|-------------|
-| `functionName` | `string` | Yes | Backend method name (`serverMethod` sent to the API). Non-empty string. |
-| `functionPayload` | `any` | No | JSON-serializable argument for the server method. |
-| `options` | `object` | No | Reserved; may include `timeout` (ms) forwarded to the underlying request (default **120000**). |
-
-**Behavior**
-
-- Sends `POST` with body: `{ serverMethod, payload, appVersionId, appId, traceId }` where **`serverMethod`** comes from **`functionName`** and **`payload`** from **`functionPayload`** (`traceId` is generated per call).
-- On HTTP **401**, shows a toastr error on the client.
-- On status **> 300**, shows a toastr error and rejects with `Error('Sparrowapps API Error')`.
-
-**Example**
+Calls your server-side handler via the platform (`serverMethod` + payload). Returns a **`Promise`** that resolves to the API JSON body. Optional `options.timeout` (default ~120s).
 
 ```js
 const result = await window.AppnestFunctions.$app.backend({
   functionName: 'myServerHandler',
-  functionPayload: { foo: 'bar' },
+  functionPayload: { id: 1 },
 });
 ```
 
 ---
 
-## `$productParent`
+## Object shape (JavaScript / JSDoc)
 
-Calls into the **embedding product** (parent page) via `postMessage`. The parent must handle `action: 'product-parent-request'` (platform **2.0**).
-
-### `$productParent.getName`
-
-| | |
-|---|---|
-| **Returns** | `Promise` — product parent identifier from host JWT claims (e.g. `surveysparrow`) |
+Paste near your app code if your editor uses JSDoc for hints. `window.AppnestFunctions` is still provided by **`client.js`** — this only documents the shape.
 
 ```js
-const name = await window.AppnestFunctions.$productParent.getName();
+/**
+ * Shape of `window.AppnestFunctions` (injected by client.js).
+ *
+ * @typedef {object} AppnestFunctions
+ * @property {() => { data: { message: string } }} $check
+ * @property {{ backend: AppBackendInvoke }} $app
+ */
+
+/**
+ * @callback AppBackendInvoke
+ * @param {object} args
+ * @param {string} args.functionName
+ * @param {*} [args.functionPayload]
+ * @param {{ timeout?: number }} [args.options]
+ * @returns {Promise<*>}
+ */
 ```
 
-### `$productParent.getRegion`
-
-| | |
-|---|---|
-| **Returns** | `Promise` — region claim from the host |
-
-```js
-const region = await window.AppnestFunctions.$productParent.getRegion();
-```
-
-**Note:** Internally, these methods return `response.body` from the resolved `postMessage` result. The parent should return a shape consistent with that (e.g. `{ body: ... }`) or the client should be updated to return the raw `result` if the parent sends a plain value.
-
-### `$productParent.invoke`
-
-| | |
-|---|---|
-| **Signature** | `invoke({ actionName, actionPayload? })` |
-| **Returns** | `Promise` — whatever the parent returns for that action |
-
-Dispatches a product-specific action. Support depends on the **current product parent**. For **`surveysparrow`**, the parent typically supports actions such as:
-
-| `actionName` | Description (typical) |
-|--------------|------------------------|
-| `getSurveyId` | Survey id inferred from parent URL; resolves to `{ surveyId }`. |
-| `getLoggedInUserDetails` | Resolves to `{ loggedInUserDetails }` from `window.getLoggedInUserDetails()`. |
-| `getLocation` | Resolves to `window.marketplaceLocalAppLocation`. |
-
-Other product parents may reject unsupported actions.
-
-**Example**
-
-```js
-const { surveyId } = await window.AppnestFunctions.$productParent.invoke({
-  actionName: 'getSurveyId',
-});
-```
-
----
-
-## Errors and timeouts
-
-- Requests are tracked by **`requestId`**; responses must match or they are ignored.
-- Default **timeout: 120 seconds** (`TIMEOUT` in `client.js`). On timeout the promise rejects with `Error('Timeout: …')`.
-- Parent or network failures surface as rejected promises; errors from the parent may include a `.code` if provided in the error payload.
-
-## Debugging
-
-Set `DEBUG = true` at the top of `client.js` to enable verbose `console.trace` logging for the client bridge.
-
----
-
-## TypeScript-style shape (reference)
-
-```ts
-interface AppnestFunctions {
-  $check: () => { data: { message: string } };
-  $app: {
-    backend: (args: {
-      functionName: string;
-      functionPayload?: unknown;
-      options?: { timeout?: number };
-    }) => Promise<unknown>;
-  };
-  $productParent: {
-    getName: () => Promise<unknown>;
-    getRegion: () => Promise<unknown>;
-    invoke: (args: {
-      actionName: string;
-      actionPayload?: unknown;
-    }) => Promise<unknown>;
-  };
-}
-```
+On HTTP errors (e.g. 401 or status > 300) backend calls may show a toastr and reject; timeouts reject with an `Error`.
