@@ -34,9 +34,9 @@ This document summarizes how well the PRD generator covers Appnest apps and what
 
 ### 3. **$next (function chaining)** — was implicit only
 
-- **Gap:** No place to document “Function A calls $next.run({ functionName: 'B', payload, delay })” — i.e. which handlers invoke which other functions and with what payload/delay.
+- **Gap:** No place to document “Function A calls $next.run({ functionName: 'B', functionPayload, delay })” — i.e. which handlers invoke which other functions and with what functionPayload/delay.
 - **Risk:** Chained or orchestrated flows were not explicitly specified in the PRD.
-- **Change:** Added a question (chained/orchestrated flows, which function calls which) and a **Function chaining ($next)** section (caller, target function, payload/delay) in 08-api-contracts or 06; validation item when $next is used.
+- **Change:** Added a question (chained/orchestrated flows, which function calls which) and a **Function chaining ($next)** section (caller, target function, functionPayload/delay) in 08-api-contracts or 06; validation item when $next is used.
 
 ### 4. **Per-handler Appnest Functions usage** — was high-level only
 
@@ -65,7 +65,7 @@ This document summarizes how well the PRD generator covers Appnest apps and what
   - **$db:** Entities, key patterns, $db types (already in place).
   - **$file:** When used: paths, visibility, operations (upload/download/list/delete), and which handlers use them.
   - **$schedule:** When used: each job’s name, type (ONE_TIME/CRON/RECURRING), target function, and schedule.
-  - **$next:** When used: which function calls which, payload shape, and delay.
+  - **$next:** When used: which function calls which, functionPayload shape, and delay.
   - **Manifest:** backend_api_functions, event_listener_functions, installation_params, oauth_config, whitelisted_domains (already in place).
 
 Running the question framework in order, filling all template sections (including the new ones), and passing the validation checklist (including the new items) should produce a PRD that is **ready to build** an Appnest app with full coverage of backend behaviour, data storage, and **Appnest Functions** usage ($db, $fetch, $file, $schedule, $next; `getTraceId` for correlation).

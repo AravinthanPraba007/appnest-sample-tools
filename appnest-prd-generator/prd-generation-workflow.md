@@ -55,7 +55,7 @@ Step-by-step execution to turn an app idea and question answers into a complete,
    - `{{backend_api_functions}}`, `{{event_listener_functions}}`, `{{installation_params}}`, `{{oauth_config}}`, `{{whitelisted_domains}}`
    - If the app uses **$file**: fill file storage section in 07-data-model (paths, visibility, operations, handlers).
    - If the app uses **$schedule**: fill scheduled jobs table in 08-api-contracts (name, type, target function, schedule).
-   - If the app uses **$next**: fill function chaining table in 08-api-contracts (caller, target function, payload, delay).
+   - If the app uses **$next**: fill function chaining table in 08-api-contracts (caller, target function, functionPayload, delay).
    - If the app has a **full-page UI**: fill **11-ui-screens.md** (screens overview, and for each screen: purpose, entry, layout using Stack/Box, **exact Twigs component names** for every control and block—Button, Select, Input, Alert, Table, Spinner, Text, etc.—and actions with functionName, data shown, empty/loading/error using Twigs). State that implementation **MUST** use only Twigs for that screen (no raw HTML). Optionally set **Screen(s)** in 04-user-flows. Before marking READY TO BUILD, ensure 11-ui-screens and the checklist require Twigs-only UI and layout.
    - `{{mvp_scope}}`, `{{milestones}}`
 3. In `06-technical-architecture.md`, ensure:

@@ -37,7 +37,7 @@ Use this checklist after filling the PRD template and before marking the app **R
 | 3.3 | **Sensitive data** and **secrets** are handled only via installation_params or oauth_config; no hardcoding. | Yes | ☐ Pass ☐ Fail ☐ Unclear | 07-data-model + 09-non-functional. |
 | 3.4 | If the app uses **$file**: file storage section in 07-data-model is filled (paths, visibility, operations, handlers). | If uses $file | ☐ Pass ☐ Fail ☐ Unclear ☐ N/A | 07-data-model. |
 | 3.5 | If the app uses **$schedule**: scheduled jobs are listed in 08-api-contracts with name, type, target function, schedule. | If uses $schedule | ☐ Pass ☐ Fail ☐ Unclear ☐ N/A | 08-api-contracts. |
-| 3.6 | If the app uses **$next**: function chaining is documented in 08-api-contracts (caller, target function, payload, delay). | If uses $next | ☐ Pass ☐ Fail ☐ Unclear ☐ N/A | 08-api-contracts. |
+| 3.6 | If the app uses **$next**: function chaining is documented in 08-api-contracts (caller, target function, functionPayload, delay). | If uses $next | ☐ Pass ☐ Fail ☐ Unclear ☐ N/A | 08-api-contracts. |
 
 ---
 

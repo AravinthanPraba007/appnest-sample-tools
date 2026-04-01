@@ -88,10 +88,10 @@ If the app uses the AppNest **$schedule** API (create, get, update, pause, resum
 
 ## Function chaining ($next)
 
-If any handler invokes another function via **$next.run({ functionName, payload, delay })**, document each call. The target must be a function exported from `app-backend/server.js`.
+If any handler invokes another function via **$next.run({ functionName, functionPayload, delay })**, document each call. The target must be a function exported from `app-backend/server.js`.
 
-| Caller function | Target function | Payload shape | Delay (s) | Notes |
-|-----------------|-----------------|---------------|-----------|--------|
-| {{next_caller_1}} | {{next_target_1}} | {{next_payload_1}} | {{next_delay_1}} | {{next_notes_1}} |
+| Caller function | Target function | FunctionPayload shape | Delay (s) | Notes |
+|-----------------|-----------------|-------------------------|-----------|--------|
+| {{next_caller_1}} | {{next_target_1}} | {{next_functionPayload_1}} | {{next_delay_1}} | {{next_notes_1}} |
 
 - If the app does **not** use $next, write *Not used* and remove the table.

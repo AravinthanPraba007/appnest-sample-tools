@@ -57,7 +57,7 @@ Structured follow-up questions to go from an app idea to a complete, buildable P
 | D5 | Is there any **sensitive data**? How is it handled? (installation_params, oauth, no hardcoding) | Secrets in manifest only. |
 | D6 | Does the app **upload, download, list, or delete files**? If yes: what **paths** or path patterns? **Visibility** (PUBLIC vs PRIVATE)? Which handlers use $file (getUploadUrl, getDownloadUrl, delete, list, exists)? | File storage ($file); 07-data-model file section. |
 | D7 | Does the app need **scheduled jobs** (cron, one-time, recurring)? For each: **name**, **type** (ONE_TIME / CRON / RECURRING), **target function** (export name from server.js), **schedule** (e.g. cron expression, runAt, or repeat)? | Scheduled jobs ($schedule); 08 or 06. |
-| D8 | Does any handler **invoke another function** via $next? If yes: **caller function**, **target function name**, **payload shape**, **delay** (seconds)? | Function chaining ($next); 08-api-contracts. |
+| D8 | Does any handler **invoke another function** via $next? If yes: **caller function**, **target function name**, **functionPayload shape**, **delay** (seconds)? | Function chaining ($next); 08-api-contracts. |
 
 **When to ask deeper:** If the app “pushes” data elsewhere, ask: idempotency (how duplicates are avoided), retries, and whether external IDs are stored in $db. If the app uses files, ask: path naming convention and who generates paths (user vs app).
 

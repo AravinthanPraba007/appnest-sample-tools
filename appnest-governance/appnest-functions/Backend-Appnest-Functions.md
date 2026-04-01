@@ -27,7 +27,7 @@ const { $db, $file, $fetch, $next, $schedule, getTraceId } = AppnestFunctions;
 | **$db**    | Key/value storage          | `get`, `set`, `delete`; typed: `string` / `number` (get/set/delete + number increment/decrement), `list` (get/set/append/prepend/updateItemAtIndex/removeItemAtIndex), `map` (get/set/delete), `boolean` (get/set/delete) |
 | **$fetch** | Outbound HTTP requests     | `request({ url, method, headers, body, options? })` |
 | **$file**  | File storage (signed URLs) | `getUploadUrl`, `getDownloadUrl`, `delete`, `list`, `exists` |
-| **$next**  | Invoke another function    | `run({ functionName, payload, delay })` |
+| **$next**  | Invoke another function    | `run({ functionName, functionPayload, delay })` |
 | **$schedule** | Scheduled jobs          | `create`, `get`, `update`, `pause`, `resume`, `delete` |
 | **getTraceId** | Request trace ID       | `getTraceId()` → string (for logging/correlation) |
 
@@ -42,7 +42,7 @@ Brief overview of each module.
 | **$db**     | Key/value by type: STRING, NUMBER, LIST, MAP, BOOLEAN. Common param: `key` (string). |
 | **$fetch**  | `$fetch.request({ url, method, headers, body, options? })`. **options:** `isOauth` (boolean, default false), `maxAttempts` (number, default 0). Methods: GET, POST, PUT, DELETE, PATCH. Use `<%=installation_parameters.<key>%>` for manifest params; use `<%=user_oauth.access_token%>` in headers for platform access_token; framework replaces at runtime. |
 | **$file**   | `getUploadUrl`, `getDownloadUrl`, `delete`, `list`, `exists`. Params: `path`, `visibility` (optional). |
-| **$next**   | `$next.run({ functionName, payload, delay })`. Delay in seconds. |
+| **$next**   | `$next.run({ functionName, functionPayload, delay })`. Delay in seconds. |
 | **$schedule** | Job kinds: ONE_TIME, CRON, RECURRING. `jobName`, `jobType`, `jobPayload`, `jobConfig` (create/update); `jobConfig` holds `runAt` / `cronExpression` / `repeat` by type. |
 
 ---
@@ -116,7 +116,7 @@ Brief overview of each module.
 
 | Function | Params | Types / constraints | Return |
 |----------|--------|----------------------|--------|
-| `$next.run({ functionName, payload, delay })` | functionName, payload, delay | **functionName** (string, required). **payload** (object, required). **delay** (number, optional, default 0): seconds, >= 0. | `Promise<object>` (API response body, e.g. `{ success: boolean }`) |
+| `$next.run({ functionName, functionPayload, delay })` | functionName, functionPayload, delay | **functionName** (string, required). **functionPayload** (object, required). **delay** (number, optional, default 0): seconds, >= 0. | `Promise<object>` (API response body, e.g. `{ success: boolean }`) |
 
 ---
 
@@ -156,7 +156,7 @@ exports.myHandler = async (event, context) => {
   // Use $db, $fetch, $file, $next, $schedule as needed
   const row = await $db.string.get({ key: 'config' }); // row is the string value
   const res = await $fetch.request({ url: 'https://api.example.com', method: 'GET', headers: {}, body: {} }); // optional: options: { isOauth, maxAttempts }
-  const nextResult = await $next.run({ functionName: 'otherFn', payload: { id: 1 }, delay: 0 }); // nextResult is the API response body
+  const nextResult = await $next.run({ functionName: 'otherFn', functionPayload: { id: 1 }, delay: 0 }); // nextResult is the API response body
 };
 ```
 
