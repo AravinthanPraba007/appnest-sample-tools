@@ -35,6 +35,8 @@ const data = await $app.backend({
 
 This can be used in the browser or app client. It triggers the platform’s backend invocation flow and returns the **parsed JSON response body** (not a `{ data, status }` wrapper). Use it whenever the UI needs to call a named server function.
 
+The same **`window.AppnestFunctions`** object also includes **`$productParent`** (calls into the embedding product—name, region, and product-specific **`invoke`** actions) and **`$check`** (quick confirmation the bridge loaded). Product support for **`$productParent`** varies by host; see the frontend reference below.
+
 For detailed information about function signatures, parameters, return shapes, and code-generation details, refer to:
 
 - **[Backend-Appnest-Functions.md](Backend-Appnest-Functions.md)** — Backend `AppnestFunctions` API reference  
