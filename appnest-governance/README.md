@@ -19,7 +19,7 @@ Standards and reference for Appnest apps: **execution flows**, **appnest-functio
 | **Orientation** | [Appnest-App-Development-Guide.md](Appnest-App-Development-Guide.md) | Structure, `server.js` / `App.jsx`, manifest wiring, `$app.backend`, Twigs overview, validate/pack, example tree |
 | **Development engine** | [Appnest-Development-Engine.md](appnest-development-engine/Appnest-Development-Engine.md) | NPM CLI package overview and local dev model |
 | | [Appnest-Development-Engine-Commands.md](appnest-development-engine/Appnest-Development-Engine-Commands.md) | `app init`, `start`, `validate`, `pack`, and related commands |
-| **Execution and flows** | [Appnest-Execution-Flows.md](Appnest-Execution-Flows.md) | Trigger → handler → SDK → `ResultData`, principles, operation types, long-running flows |
+| **Execution and flows** | [Appnest-Execution-Flows.md](Appnest-Execution-Flows.md) | Trigger → handler (`({ payload })`) → SDK → plain object / `new ResultData`, principles, operation types, long-running flows |
 | **appnest-functions** | [Appnest-Functions.md](appnest-functions/Appnest-Functions.md) | Overview: backend/frontend AppnestFunctions; links to detailed references |
 | | [Backend-Appnest-Functions.md](appnest-functions/Backend-Appnest-Functions.md) | Full SDK reference (import, $db, $fetch, $file, $next, $schedule, getTraceId) |
 | | [Frontend-Appnest-Functions.md](appnest-functions/Frontend-Appnest-Functions.md) | Client bridge: `client.js`, `window.AppnestFunctions` ($check, $app) |

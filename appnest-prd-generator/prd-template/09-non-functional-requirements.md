@@ -13,7 +13,7 @@
 - **Stateless handlers:** All handlers MUST be stateless. Persist state only in $db or external systems. See `appnest-tools/appnest-governance/Appnest-Execution-Flows.md`.
 - **Retries:** {{retry_policy}} (e.g. 429 backoff, idempotent pushes).
 - **Partial failure:** {{partial_failure_handling}} (e.g. batch sync: record failures, don’t re-push duplicates).
-- **ResultData:** Use `ResultData` for explicit status/body (e.g. 4xx/5xx). Do not throw raw errors without a structured return. See `appnest-tools/appnest-governance/appnest-functions/Appnest-Functions.md`.
+- **ResultData:** Use **`new ResultData({ body, statusCode })`** for explicit status/body (e.g. 4xx/5xx). Handlers take **`({ payload })`**. **`ResultData`** comes from your app scaffold—import path depends on the template. Do not throw raw errors without a structured return. See `appnest-tools/appnest-governance/appnest-functions/Backend-Appnest-Functions.md`.
 
 ## External API standards
 

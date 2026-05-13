@@ -184,7 +184,7 @@ Nested under **`product_config.<product>.event_listener_functions`**.
 ```
 
 - **Keys:** Platform event names (e.g. `onSubmissionComplete`, `onContactCreate`, **`onScheduledEvent`** for each schedule trigger).
-- **Value:** Object with **`handler`** (string) = name of the function exported from **`app-backend/server.js`** that will be called when the event fires. The handler receives `{ payload }`.
+- **Value:** Object with **`handler`** (string) = name of the function exported from **`app-backend/server.js`** that will be called when the event fires. The handler is invoked with a single argument object; destructure **`({ payload })`**. Return a plain object or **`new ResultData({ body, statusCode })`**.
 - **Multiple events → one handler:** Different event keys may use the **same** `handler` string if one implementation handles several platform events (e.g. `onContactCreate` and `onSubmissionComplete` both `"onSubmissionComplete"`).
 
 ### backend_api_functions
@@ -199,6 +199,7 @@ Nested under **`product_config.<product>.backend_api_functions`**.
 ```
 
 - **Keys:** Function names that must be exported from **`app-backend/server.js`**; only those exports become API endpoints.
+- **Invocation:** Each function is called with a single argument object; destructure **`({ payload })`**. Return a plain object or **`new ResultData({ body, statusCode })`** (see **[Backend-Appnest-Functions.md](../appnest-functions/Backend-Appnest-Functions.md)**).
 - **Value:** Object. Optional `timeout` (number, seconds). Other options may be supported by the platform.
 
 ### installation_parameters

@@ -8,7 +8,7 @@ Folders and files under `appnest-governance/` are **not** numbered. Use this lis
 
 ## 2. Execution and flows
 
-2. [Appnest-Execution-Flows.md](Appnest-Execution-Flows.md) — trigger → handler → SDK → `ResultData`, principles (statelessness, determinism, safety), operation types, long-running definition.
+2. [Appnest-Execution-Flows.md](Appnest-Execution-Flows.md) — trigger → handler (`({ payload })`) → SDK → plain object / `new ResultData`, principles (statelessness, determinism, safety), operation types, long-running definition.
 
 ## 3. appnest-functions (SDK)
 

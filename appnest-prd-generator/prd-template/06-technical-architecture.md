@@ -9,8 +9,9 @@ This app follows the AppNest framework. Reference: `appnest-tools/appnest-govern
 - **Single entry:** `app-backend/server.js`. Only **exported** functions are invokable (as API or event handlers).
 - **No Express/routes:** The framework provides routing. Implement handlers in separate files (e.g. `controller/*.js`, `eventHandler.js`) and re-export from `server.js`.
 - **All I/O via Appnest Functions (backend):** Use `$db` for persistence, `$fetch.request` for outbound HTTP, `$file` for files, `$next` for invoking other functions, `$schedule` for scheduled jobs; use `getTraceId()` for request correlation/logging where needed. Do **not** use axios/fetch or raw DB clients. See **`appnest-functions/Backend-Appnest-Functions.md`** in governance for the full API.
+- **SDK return fields:** Implementation must read each method’s result using the **documented property names** in **Backend-Appnest-Functions.md** (e.g. `$fetch.request` → `headers`, `body`, `status`). Do **not** invent alternate field names when wiring handlers or generated code.
 - **Do not add** `@sparrowengg/appnest-app-sdk-utils` to `app-backend/package.json`; **Appnest Functions** are provided by the platform at runtime (import `AppnestFunctions` from that package in code only—do not list it as a dependency).
-- **Handlers** receive `{ payload }` and return a plain object or `ResultData({ body, statusCode })` for HTTP-style responses.
+- **Handlers** are invoked with a single argument object; destructure **`({ payload })`**. Return a plain object or **`new ResultData({ body, statusCode })`** for HTTP-style responses. **`ResultData`** comes from your app scaffold—import path depends on the template.
 
 ### Frontend
 

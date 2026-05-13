@@ -4,7 +4,7 @@
 
 - Every invokable backend function must be **exported** from `app-backend/server.js`.
 - Every such function must be declared in `manifest.json`: **API** → `backend_api_functions`, **Event** → `event_listener_functions` with `handler` set to the function name.
-- Handlers receive **`{ payload }`**. Return a plain object or `ResultData({ body, statusCode })`.
+- Each handler is invoked with a single argument object; destructure **`({ payload })`**. Return a plain object or **`new ResultData({ body, statusCode })`**. **`ResultData`** comes from your app scaffold—import path depends on the template.
 - Frontend calls backend via **`window.AppnestFunctions.$app.backend({ functionName, functionPayload })`**.
 
 ---

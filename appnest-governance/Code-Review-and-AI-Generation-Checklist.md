@@ -41,7 +41,8 @@ Normative standards for calling external services from backend handlers.
 
 - [ ] No direct HTTP libraries (use `$fetch.request`)  
 - [ ] Handlers exported from **app-backend/server.js** only  
-- [ ] ResultData or structured return used  
+- [ ] `new ResultData` or plain object return used where appropriate  
+- [ ] **`$db` / `$fetch` / `$file` / `$next` / `$schedule`:** Code that reads SDK results uses the **documented return property names** from **[Backend-Appnest-Functions.md](appnest-functions/Backend-Appnest-Functions.md)** (not guessed names like `data` or `items` when the reference specifies something else)  
 
 ---
 
@@ -78,3 +79,4 @@ Normative standards for calling external services from backend handlers.
 - [ ] No hallucinated SDK methods  
 - [ ] No forbidden libraries  
 - [ ] Structure matches Appnest standards  
+- [ ] SDK return values use **documented field names** from **Backend-Appnest-Functions.md** (no assumed renames or generic wrappers)  

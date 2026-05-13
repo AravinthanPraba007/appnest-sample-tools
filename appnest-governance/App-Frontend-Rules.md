@@ -24,7 +24,7 @@
 |------|------------|
 | **API** | **MUST** call the backend via **`window.AppnestFunctions.$app.backend({ functionName, functionPayload })`**. |
 | **Parameter names** | Use **`functionName`** and **`functionPayload`** (exact). **`functionName`** must match a function **exported** from `app-backend/server.js` and declared in `manifest.json` → `backend_api_functions`. |
-| **Response** | Response shape is **`{ statusCode, body }`**. `body` is the handler return (e.g. from `ResultData`). Always check `response.statusCode` before using `response.body`. |
+| **Response** | Response shape is **`{ statusCode, body }`**. `body` reflects the handler return (including when the handler uses **`new ResultData`**). Always check `response.statusCode` before using `response.body`. |
 | **MUST NOT** | Use `fetch`, `axios`, or any other HTTP client to call app backend. Do not use legacy names **`apiFunctionName`** / **`payload`** on the client call—use **`functionName`** / **`functionPayload`**. |
 
 **Example:**

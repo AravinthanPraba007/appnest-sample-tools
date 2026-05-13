@@ -61,7 +61,7 @@ You do **not** edit `appnest-*` engine packages in normal app work—only your *
 ### Wiring in `manifest.json`
 
 - **Backend API endpoints** — Declare under **`backend_api_functions`**. Each key must be the name of a function exported from **`app-backend/server.js`**. Per-function options (e.g. `timeout` in seconds) go in the value object.  
-- **Event listeners** — Declare under **`event_listener_functions`**. The `handler` in each value must be the name of a function exported from **`app-backend/server.js`**. When the event occurs, the framework calls that function (e.g. with a `payload`).  
+- **Event listeners** — Declare under **`event_listener_functions`**. The `handler` in each value must be the name of a function exported from **`app-backend/server.js`**. When the event occurs, the framework invokes that function with a **single argument object**; destructure **`({ payload })`**.  
 
 Full schema: **[Manifest-Rules.md](app-configuration/Manifest-Rules.md)**.
 
@@ -73,17 +73,18 @@ Full schema: **[Manifest-Rules.md](app-configuration/Manifest-Rules.md)**.
 
 - **CommonJS only** in `app-backend`: use `require` / `module.exports` — **no** `import` / `export` / `import()` (enforced by **`validate`**).  
 - Keep exports aligned with **`manifest.json`** so **`validate`** does not report missing functions.  
-- API and event handlers receive a **`payload`**; use **AppnestFunctions** for all DB and outbound API calls—**do not** use raw DB or HTTP clients.  
+- API and event handlers are invoked as **`async ({ payload }) => { ... }`** (single argument; read inputs from **`payload`**). Return a plain object or **`new ResultData({ body, statusCode })`**. Use **AppnestFunctions** for all DB and outbound API calls—**do not** use raw DB or HTTP clients.  
+- When reading return values from **`$db`**, **`$fetch`**, **`$file`**, **`$next`**, or **`$schedule`**, use the **exact property names** documented in **[Backend-Appnest-Functions.md](appnest-functions/Backend-Appnest-Functions.md)** for each method—**do not** guess alternative names (for example inventing `data` or `items` when the reference defines `body`, `keys`, or a direct scalar return).  
 
 ### Example backend layout
 
 - **`app-backend/server.js`** — Re-exports all handlers and API functions. No Express or controller code here—only exports.  
-- **`app-backend/sampleHandler.js`** — API-style functions that receive `{ payload }`, use AppnestFunctions (e.g. `$db`, `$fetch`) and `ResultData`, and return plain objects or `ResultData`.  
-- **`app-backend/eventHandler.js`** — Product event handlers that receive `{ payload }`, use AppnestFunctions for DB/API, and return plain objects or `ResultData`.  
+- **`app-backend/sampleHandler.js`** — API-style functions **`async ({ payload }) => { ... }`**, using AppnestFunctions (e.g. `$db`, `$fetch`) and returning plain objects or **`new ResultData({ body, statusCode })`**.  
+- **`app-backend/eventHandler.js`** — Product event handlers with the same **`({ payload })`** signature and return rules, using AppnestFunctions for DB/API.  
 
 ### Returning HTTP-style responses
 
-Use **`ResultData`** from the Appnest SDK when you need to control status and body:
+Use **`ResultData`** when you need to control status and body (**`ResultData`** comes from your app scaffold—import path depends on the template; it is usually required beside **`AppnestFunctions`**):
 
 ```js
 const { AppnestFunctions, ResultData } = require('@sparrowengg/appnest-app-sdk-utils');
@@ -135,7 +136,7 @@ Add both with version **`"*"`** (latest)—do not pin to versions that may not e
 
 - **`app-frontend/src/App.jsx`** is always the root component; build UI there or in components it imports.  
 - Call the backend with **`window.AppnestFunctions.$app.backend({ functionName, functionPayload })`**. Only functions exported from **`app-backend/server.js`** can be invoked.  
-- **`$app.backend`** returns **`{ statusCode, body }`**: when the backend uses **`ResultData({ body, statusCode })`**, those values are used; otherwise the framework may assign a default `statusCode` (e.g. `200`) and expose the returned object as `body`.  
+- **`$app.backend`** returns **`{ statusCode, body }`**: when the backend uses **`new ResultData({ body, statusCode })`**, those values are used; otherwise the framework may assign a default `statusCode` (e.g. `200`) and expose the returned object as `body`.  
 - Use **`getClient()`** from **`src/utils/client.js`** when you need the classic Appnest client (e.g. `window.app.initialized()`).  
 - Entry URL for the full-page app is set in **`manifest.json`** → **`frontend_locations.full_page_app.url`**.  
 
@@ -202,7 +203,7 @@ your-app/
 ├── manifest.json                 # backend_api_functions, event_listener_functions, frontend_locations, etc.
 ├── app-backend/
 │   ├── server.js                 # BACKEND ENTRY: only exported functions can be invoked (API + events)
-│   ├── sampleHandler.js          # API handlers (AppnestFunctions, ResultData)
+│   ├── sampleHandler.js          # API handlers: ({ payload }), AppnestFunctions, new ResultData
 │   └── eventHandler.js           # Event handlers
 ├── app-frontend/
 │   └── src/

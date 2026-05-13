@@ -8,7 +8,9 @@ How Appnest **runs** app code: the execution path from trigger to result, **prin
 
 All Appnest apps follow this model:
 
-**Trigger → Handler → SDK operations → ResultData**
+**Trigger → Handler → SDK operations → response**
+
+Handlers are async functions invoked as **`({ payload }) => { ... }`**. Return a plain object or **`new ResultData({ body, statusCode })`** when the HTTP status and body must be set explicitly (**`ResultData`** comes from your app scaffold—import path depends on the template). See **[Backend-Appnest-Functions.md](appnest-functions/Backend-Appnest-Functions.md)** for the full handler contract and SDK APIs, including **documented return property names** for each **`$db` / `$fetch` / `$file` / `$next` / `$schedule`** call (do not guess field names when reading results).
 
 A **trigger** starts a handler run. Trigger sources include:
 
