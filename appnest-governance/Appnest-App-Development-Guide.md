@@ -75,6 +75,7 @@ Full schema: **[Manifest-Rules.md](app-configuration/Manifest-Rules.md)**.
 - Keep exports aligned with **`manifest.json`** so **`validate`** does not report missing functions.  
 - API and event handlers are invoked as **`async ({ payload }) => { ... }`** (single argument; read inputs from **`payload`**). Return a plain object or **`new ResultData({ body, statusCode })`**. Use **AppnestFunctions** for all DB and outbound API calls—**do not** use raw DB or HTTP clients.  
 - When reading return values from **`$db`**, **`$fetch`**, **`$file`**, **`$next`**, or **`$schedule`**, use the **exact property names** documented in **[Backend-Appnest-Functions.md](appnest-functions/Backend-Appnest-Functions.md)** for each method—**do not** guess alternative names (for example inventing `data` or `items` when the reference defines `body`, `keys`, or a direct scalar return).  
+- **Do not** pass **`$db`**, **`$fetch`**, **`$file`**, **`$next`**, **`$schedule`**, or **`getTraceId`** as arguments between functions (for example `helper($fetch)`). In each backend module, use **`const { AppnestFunctions, ResultData } = require('@sparrowengg/appnest-app-sdk-utils');`** then **`const { $fetch, ... } = AppnestFunctions`** at **module** scope; helpers take domain data only. See **[Backend-Appnest-Functions.md](appnest-functions/Backend-Appnest-Functions.md)** (*Helper usage (no DI-style parameters)*).
 
 ### Example backend layout
 

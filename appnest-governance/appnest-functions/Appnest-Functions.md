@@ -10,6 +10,8 @@ const { AppnestFunctions, ResultData } = require('@sparrowengg/appnest-app-sdk-u
 const { $db, $fetch, $file, $next, $schedule, getTraceId } = AppnestFunctions;
 ```
 
+Do **not** pass **`$db`**, **`$fetch`**, **`$file`**, **`$next`**, **`$schedule`**, or **`getTraceId`** as parameters from one function to another (for example `doWork($fetch)`). Repeat the **`require`** + destructuring from **`AppnestFunctions`** at **module** scope in each backend file that needs them, and keep helper signatures limited to domain data. Full rationale and AI guidance: **[Backend-Appnest-Functions.md](Backend-Appnest-Functions.md)** (Import → *Helper usage (no DI-style parameters)*).
+
 Available helpers (destructure only what you need):
 
 - **`$db`** — typed key/value storage  

@@ -43,6 +43,7 @@ Normative standards for calling external services from backend handlers.
 - [ ] Handlers exported from **app-backend/server.js** only  
 - [ ] `new ResultData` or plain object return used where appropriate  
 - [ ] **`$db` / `$fetch` / `$file` / `$next` / `$schedule`:** Code that reads SDK results uses the **documented return property names** from **[Backend-Appnest-Functions.md](appnest-functions/Backend-Appnest-Functions.md)** (not guessed names like `data` or `items` when the reference specifies something else)  
+- [ ] **`AppnestFunctions` usage:** **`$db`**, **`$fetch`**, **`$file`**, **`$next`**, **`$schedule`**, and **`getTraceId`** are obtained only via **`const { AppnestFunctions, ... } = require('@sparrowengg/appnest-app-sdk-utils')`** (or the scaffold path) followed by **`const { ... } = AppnestFunctions`** at **module** scope—not passed as function arguments between helpers (see **Helper usage (no DI-style parameters)** in **[Backend-Appnest-Functions.md](appnest-functions/Backend-Appnest-Functions.md)**)  
 
 ---
 
